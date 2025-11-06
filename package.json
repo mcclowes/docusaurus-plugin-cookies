@@ -1,7 +1,7 @@
 {
-  "name": "docusaurus-plugin-starter",
+  "name": "docusaurus-plugin-cookies",
   "version": "0.1.0",
-  "description": "Starter template for building Docusaurus v2 plugins with TypeScript.",
+  "description": "A cookie consent modal/toast component for Docusaurus sites with configurable text, links, and preference management.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -32,10 +32,14 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@docusaurus/types": "^2.4.0"
+    "@docusaurus/types": "^2.4.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@docusaurus/types": "^2.4.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "rimraf": "^6.0.1",
     "tsup": "^8.0.1",
     "typescript": "^5.6.3"
@@ -43,7 +47,10 @@
   "keywords": [
     "docusaurus",
     "plugin",
-    "starter",
+    "cookies",
+    "cookie-consent",
+    "gdpr",
+    "privacy",
     "typescript"
   ]
 }

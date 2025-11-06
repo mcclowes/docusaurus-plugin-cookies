@@ -1,5 +1,9 @@
-import pluginStarter from './plugin'
-export default pluginStarter
+import cookieConsentPlugin from './plugin'
+export default cookieConsentPlugin
 
-export type { PluginStarterOptions } from './types'
+export type { CookieConsentOptions, CookieCategory, CookieConsentLink } from './types'
+
+// Export hooks for use in user components
+export { useCookieConsent } from './client/CookieContext'
+export type { CookiePreferences } from './client/CookieContext'
 

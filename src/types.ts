@@ -1,11 +1,56 @@
-export type PluginStarterOptions = {
+export type CookieCategory = 'necessary' | 'analytics' | 'marketing' | 'functional'
+
+export type CookieConsentLink = {
+  label: string
+  href: string
+}
+
+export type CookieConsentOptions = {
   /**
-   * Example option to demonstrate typed configuration. Replace or extend as needed.
+   * Enable or disable the cookie consent banner
    */
   enabled?: boolean
   /**
-   * Demonstrates passing a string option that could drive plugin behavior.
+   * Main title/heading text for the cookie consent modal
    */
-  greetingMessage?: string
+  title?: string
+  /**
+   * Main description text (markdown compatible)
+   */
+  description?: string
+  /**
+   * Links to privacy policy, cookie policy, etc.
+   */
+  links?: CookieConsentLink[]
+  /**
+   * Text for the "Accept All" button
+   */
+  acceptAllText?: string
+  /**
+   * Text for the "Reject Optional" button (only rejects non-necessary cookies)
+   */
+  rejectOptionalText?: string
+  /**
+   * Text for the "Reject All" button (rejects all except necessary)
+   */
+  rejectAllText?: string
+  /**
+   * Local storage key for storing consent preferences
+   */
+  storageKey?: string
+  /**
+   * Show the modal as a toast (bottom of screen) instead of centered modal
+   */
+  toastMode?: boolean
+  /**
+   * Cookie categories and their descriptions
+   */
+  categories?: {
+    [key in CookieCategory]?: {
+      label: string
+      description?: string
+      enabled?: boolean
+    }
+  }
 }
 

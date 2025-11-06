@@ -1,25 +1,31 @@
 import type { LoadContext, Plugin } from '@docusaurus/types'
-import type { PluginStarterOptions } from './types'
+import type { CookieConsentOptions } from './types'
 
-export default function pluginStarter(
+export default function cookieConsentPlugin(
   context: LoadContext,
-  options: PluginStarterOptions
+  options: CookieConsentOptions = {}
 ): Plugin<void> {
-  const { siteDir } = context
-  const resolvedOptions: Required<PluginStarterOptions> = {
+  const resolvedOptions: Required<Omit<CookieConsentOptions, 'categories'>> & { categories?: CookieConsentOptions['categories'] } = {
     enabled: options.enabled ?? true,
-    greetingMessage: options.greetingMessage ?? 'Hello from plugin-starter!'
+    title: options.title ?? 'Cookie Consent',
+    description: options.description ?? 'We use cookies to enhance your browsing experience and analyze our traffic.',
+    links: options.links ?? [],
+    acceptAllText: options.acceptAllText ?? 'Accept All',
+    rejectOptionalText: options.rejectOptionalText ?? 'Reject Optional',
+    rejectAllText: options.rejectAllText ?? 'Reject All',
+    storageKey: options.storageKey ?? 'cookie-consent-preferences',
+    toastMode: options.toastMode ?? false,
+    categories: options.categories,
   }
 
   return {
-    name: 'docusaurus-plugin-starter',
+    name: 'docusaurus-plugin-cookies',
 
     // Called during site build/serve. Use to produce data to be consumed later.
     async loadContent() {
       if (!resolvedOptions.enabled) return undefined
       return {
-        greeting: resolvedOptions.greetingMessage,
-        siteDir,
+        options: resolvedOptions,
       }
     },
 
