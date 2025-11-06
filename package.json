@@ -1,0 +1,50 @@
+{
+  "name": "docusaurus-plugin-starter",
+  "version": "0.1.0",
+  "description": "Starter template for building Docusaurus v2 plugins with TypeScript.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client/index.mjs",
+      "require": "./dist/client/index.cjs",
+      "types": "./dist/client/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@docusaurus/types": "^2.4.0"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "^2.4.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "docusaurus",
+    "plugin",
+    "starter",
+    "typescript"
+  ]
+}
+
