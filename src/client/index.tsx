@@ -8,12 +8,12 @@ import type { CookieConsentOptions } from '../types'
 // Access global data from Docusaurus
 function getPluginOptions(): CookieConsentOptions | null {
   if (typeof window === 'undefined') return null
-  
+
   // Access global data - try multiple possible locations
   const docusaurus = (window as any).docusaurus || (window as any).__docusaurus
   const globalData = docusaurus?.globalData
   const pluginData = globalData?.['docusaurus-plugin-cookies']?.default
-  
+
   return pluginData?.options || null
 }
 
@@ -110,4 +110,3 @@ export default {
     // The component will handle visibility based on preferences
   },
 }
-

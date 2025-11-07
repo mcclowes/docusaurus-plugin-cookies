@@ -50,7 +50,10 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
         setPreferences(parsed)
       }
     } catch (error) {
-      console.warn('[docusaurus-plugin-cookies] Failed to load preferences from localStorage:', error)
+      console.warn(
+        '[docusaurus-plugin-cookies] Failed to load preferences from localStorage:',
+        error
+      )
     }
   }, [storageKey])
 
@@ -113,17 +116,21 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
   }, [])
 
   const updatePreferences = useCallback((prefs: Partial<CookiePreferences>) => {
-    setPreferences((prev) => ({
-      necessary: true, // Always true
-      analytics: false,
-      marketing: false,
-      functional: false,
-      consentGiven: false,
-      ...prev,
-      ...prefs,
-      consentGiven: true,
-      timestamp: Date.now(),
-    }))
+    setPreferences((prev) => {
+      const next: CookiePreferences = {
+        necessary: true, // Always true
+        analytics: prefs.analytics ?? prev?.analytics ?? false,
+        marketing: prefs.marketing ?? prev?.marketing ?? false,
+        functional: prefs.functional ?? prev?.functional ?? false,
+        consentGiven: prefs.consentGiven ?? prev?.consentGiven ?? false,
+        timestamp: Date.now(),
+      }
+
+      return {
+        ...next,
+        consentGiven: prefs.consentGiven ?? true,
+      }
+    })
   }, [])
 
   const resetConsent = useCallback(() => {
@@ -149,4 +156,3 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
 
   return <CookieContext.Provider value={value}>{children}</CookieContext.Provider>
 }
-

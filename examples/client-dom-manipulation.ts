@@ -10,13 +10,13 @@
  * - Link decoration plugins: Adds icons to external links
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
 // Check if we're in the browser before doing anything
 if (!ExecutionEnvironment.canUseDOM) {
   // Server-side rendering - export empty object
   // @ts-expect-error - intentionally exporting null for SSR
-  export default null;
+  export default null
 } else {
   // Client-side - export lifecycle hooks
   export default {
@@ -26,22 +26,22 @@ if (!ExecutionEnvironment.canUseDOM) {
      */
     onRouteUpdate({ location, previousLocation }) {
       // Example: Add zoom functionality to all images in markdown content
-      const images = document.querySelectorAll('.markdown img');
+      const images = document.querySelectorAll('.markdown img')
 
       images.forEach((img) => {
         // Skip if already processed
         if (img.classList.contains('zoom-enabled')) {
-          return;
+          return
         }
 
-        img.classList.add('zoom-enabled');
-        img.style.cursor = 'zoom-in';
+        img.classList.add('zoom-enabled')
+        img.style.cursor = 'zoom-in'
 
         img.addEventListener('click', () => {
           // Your zoom implementation here
-          console.log('Image clicked:', img.src);
-        });
-      });
+          console.log('Image clicked:', img.src)
+        })
+      })
     },
 
     /**
@@ -50,7 +50,7 @@ if (!ExecutionEnvironment.canUseDOM) {
      */
     onRouteDidUpdate({ location, previousLocation }) {
       // Example: Track page views, update scroll position, etc.
-      console.log('Navigated to:', location.pathname);
+      console.log('Navigated to:', location.pathname)
     },
-  };
+  }
 }

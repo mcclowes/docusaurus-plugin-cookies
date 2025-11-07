@@ -6,4 +6,3 @@ export type { CookieConsentOptions, CookieCategory, CookieConsentLink } from './
 // Export hooks for use in user components
 export { useCookieConsent } from './client/CookieContext'
 export type { CookiePreferences } from './client/CookieContext'
-

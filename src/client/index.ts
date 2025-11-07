@@ -6,4 +6,3 @@ export function onRouteDidUpdate() {
     console.debug('[docusaurus-plugin-starter] route updated')
   }
 }
-

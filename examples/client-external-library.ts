@@ -11,30 +11,30 @@
  * - search libraries like DocSearch
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
 // Example: Using medium-zoom library
 // import mediumZoom from 'medium-zoom';
 
 interface ZoomOptions {
-  selector?: string;
-  margin?: number;
-  background?: string;
-  scrollOffset?: number;
+  selector?: string
+  margin?: number
+  background?: string
+  scrollOffset?: number
 }
 
-let zoom: any = null;
+let zoom: any = null
 
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
-    return null;
+    return null
   }
 
   return {
     onRouteUpdate({ location }) {
       // Clean up previous zoom instance if it exists
       if (zoom) {
-        zoom.detach();
+        zoom.detach()
       }
 
       // Configuration for the zoom library
@@ -43,20 +43,20 @@ export default (function () {
         margin: 24,
         background: 'rgba(0, 0, 0, 0.9)',
         scrollOffset: 0,
-      };
+      }
 
       // Initialize zoom on next tick to ensure DOM is ready
       setTimeout(() => {
-        const images = document.querySelectorAll(options.selector || 'img');
+        const images = document.querySelectorAll(options.selector || 'img')
         if (images.length > 0) {
           // zoom = mediumZoom(options.selector, options);
-          console.log(`Initialized zoom for ${images.length} images`);
+          console.log(`Initialized zoom for ${images.length} images`)
         }
-      }, 100);
+      }, 100)
     },
 
     onRouteDidUpdate() {
       // Additional cleanup or tracking can go here
     },
-  };
-})();
+  }
+})()

@@ -1,14 +1,26 @@
 import type { LoadContext, Plugin } from '@docusaurus/types'
 import type { CookieConsentOptions } from './types'
 
+type ResolvedCookieConsentOptions = Required<
+  Omit<CookieConsentOptions, 'categories'>
+> & {
+  categories?: CookieConsentOptions['categories']
+}
+
+type CookieConsentPluginContent = {
+  options: ResolvedCookieConsentOptions
+}
+
 export default function cookieConsentPlugin(
   context: LoadContext,
   options: CookieConsentOptions = {}
-): Plugin<void> {
-  const resolvedOptions: Required<Omit<CookieConsentOptions, 'categories'>> & { categories?: CookieConsentOptions['categories'] } = {
+): Plugin<CookieConsentPluginContent | undefined> {
+  const resolvedOptions: ResolvedCookieConsentOptions = {
     enabled: options.enabled ?? true,
     title: options.title ?? 'Cookie Consent',
-    description: options.description ?? 'We use cookies to enhance your browsing experience and analyze our traffic.',
+    description:
+      options.description ??
+      'We use cookies to enhance your browsing experience and analyze our traffic.',
     links: options.links ?? [],
     acceptAllText: options.acceptAllText ?? 'Accept All',
     rejectOptionalText: options.rejectOptionalText ?? 'Reject Optional',
@@ -43,4 +55,3 @@ export default function cookieConsentPlugin(
     },
   }
 }
-

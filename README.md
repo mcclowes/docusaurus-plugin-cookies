@@ -84,7 +84,7 @@ That's it! The cookie consent banner will automatically appear on your site.
 ```typescript
 {
   // ... basic options ...
-  
+
   categories?: {
     necessary?: {
       label: string
@@ -120,7 +120,8 @@ module.exports = {
       'docusaurus-plugin-cookies',
       {
         title: 'We Value Your Privacy',
-        description: 'We use cookies to improve your experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies. You can also [manage your preferences](/cookie-preferences) or read our [Privacy Policy](/privacy).',
+        description:
+          'We use cookies to improve your experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies. You can also [manage your preferences](/cookie-preferences) or read our [Privacy Policy](/privacy).',
         links: [
           { label: 'Privacy Policy', href: '/privacy' },
           { label: 'Cookie Policy', href: '/cookies' },
@@ -129,7 +130,7 @@ module.exports = {
         acceptAllText: 'Accept All Cookies',
         rejectOptionalText: 'Essential Only',
         rejectAllText: 'Reject All',
-        toastMode: true,  // Show as bottom toast instead of modal
+        toastMode: true, // Show as bottom toast instead of modal
         storageKey: 'my-site-cookie-consent',
         categories: {
           necessary: {
@@ -142,7 +143,8 @@ module.exports = {
           },
           marketing: {
             label: 'Marketing Cookies',
-            description: 'Used to deliver personalized advertisements and track campaign performance.',
+            description:
+              'Used to deliver personalized advertisements and track campaign performance.',
           },
           functional: {
             label: 'Functional Cookies',
@@ -217,12 +219,12 @@ const {
 
 ```typescript
 type CookiePreferences = {
-  necessary: boolean    // Always true (cannot be disabled)
+  necessary: boolean // Always true (cannot be disabled)
   analytics: boolean
   marketing: boolean
   functional: boolean
   consentGiven: boolean
-  timestamp?: number    // When consent was given
+  timestamp?: number // When consent was given
 }
 ```
 
@@ -297,12 +299,8 @@ import { useCookieConsent } from 'docusaurus-plugin-cookies'
 
 function ResetButton() {
   const { resetConsent } = useCookieConsent()
-  
-  return (
-    <button onClick={resetConsent}>
-      Reset Cookie Preferences
-    </button>
-  )
+
+  return <button onClick={resetConsent}>Reset Cookie Preferences</button>
 }
 ```
 

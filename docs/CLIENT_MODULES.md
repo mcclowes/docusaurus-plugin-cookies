@@ -17,9 +17,9 @@ export default function myPlugin(context, options): Plugin {
     getClientModules() {
       return [
         require.resolve('./client'), // Points to src/client/index.ts
-      ];
+      ]
     },
-  };
+  }
 }
 ```
 
@@ -36,7 +36,9 @@ This is the key advantage: content authors don't need to import anything. Your p
 
 ```markdown
 <!-- In docs/my-page.md -->
+
 ![An image](./image.png)
+
 <!-- Your plugin can automatically add zoom to this image -->
 <!-- No imports needed! -->
 ```
@@ -52,13 +54,14 @@ Called **during** route navigation (before the page fully renders):
 ```typescript
 export default {
   onRouteUpdate({ location, previousLocation }) {
-    console.log('Navigating to:', location.pathname);
+    console.log('Navigating to:', location.pathname)
     // Use for: DOM manipulation, initializing libraries
   },
-};
+}
 ```
 
 **When to use:**
+
 - Initializing or reinitializing third-party libraries
 - DOM manipulation (add classes, event listeners)
 - Cleaning up from previous route
@@ -72,10 +75,11 @@ export default {
   onRouteDidUpdate({ location, previousLocation }) {
     // Use for: Analytics, scroll restoration, post-render tasks
   },
-};
+}
 ```
 
 **When to use:**
+
 - Analytics tracking
 - Scroll position restoration
 - Operations that need fully rendered DOM
@@ -87,29 +91,30 @@ export default {
 This is the pattern used by `docusaurus-plugin-image-zoom`:
 
 ```typescript
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import mediumZoom from 'medium-zoom';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
+import mediumZoom from 'medium-zoom'
 
-export default (function() {
+export default (function () {
   // Only run in browser, not during SSR
   if (!ExecutionEnvironment.canUseDOM) {
-    return null;
+    return null
   }
 
   return {
     onRouteUpdate({ location }) {
       // Reinitialize zoom on every route change
-      const selector = '.markdown img';
+      const selector = '.markdown img'
       mediumZoom(selector, {
         margin: 24,
         background: 'rgba(0, 0, 0, 0.9)',
-      });
-    }
-  };
-})();
+      })
+    },
+  }
+})()
 ```
 
 **Key principles:**
+
 1. Check `ExecutionEnvironment.canUseDOM` to avoid SSR errors
 2. Use DOM selectors to find target elements
 3. Reinitialize on each route change (SPA navigation)
@@ -119,13 +124,13 @@ export default (function() {
 For behavior that should persist across routes:
 
 ```typescript
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
-let initialized = false;
+let initialized = false
 
-export default (function() {
+export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
-    return null;
+    return null
   }
 
   return {
@@ -134,15 +139,15 @@ export default (function() {
         // Attach global keyboard shortcuts
         document.addEventListener('keydown', (event) => {
           if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault();
+            event.preventDefault()
             // Open search
           }
-        });
-        initialized = true;
+        })
+        initialized = true
       }
-    }
-  };
-})();
+    },
+  }
+})()
 ```
 
 ### Pattern 3: Using Plugin Options
@@ -158,36 +163,36 @@ export default function myPlugin(context, options) {
     async contentLoaded({ actions }) {
       // Inject options into global data
       actions.setGlobalData({
-        pluginOptions: options
-      });
+        pluginOptions: options,
+      })
     },
 
     getClientModules() {
-      return [require.resolve('./client')];
+      return [require.resolve('./client')]
     },
-  };
+  }
 }
 
 // In client/index.ts
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
-export default (function() {
+export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
-    return null;
+    return null
   }
 
   return {
     onRouteUpdate() {
       // Access options from global data
-      const globalData = (window as any).docusaurus?.globalData;
-      const options = globalData?.['my-plugin']?.default?.pluginOptions;
+      const globalData = (window as any).docusaurus?.globalData
+      const options = globalData?.['my-plugin']?.default?.pluginOptions
 
       if (options?.enabled) {
         // Do something based on config
       }
-    }
-  };
-})();
+    },
+  }
+})()
 ```
 
 ## Best Practices
@@ -195,10 +200,10 @@ export default (function() {
 ### 1. Always Check for Browser Environment
 
 ```typescript
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
 if (!ExecutionEnvironment.canUseDOM) {
-  export default null;
+  export default null
 }
 ```
 
@@ -209,19 +214,19 @@ This prevents Node.js APIs from being called during SSR.
 When using libraries that need reinitialization:
 
 ```typescript
-let instance = null;
+let instance = null
 
 export default {
   onRouteUpdate() {
     // Clean up previous instance
     if (instance) {
-      instance.destroy();
+      instance.destroy()
     }
 
     // Create new instance
-    instance = initializeLibrary();
-  }
-};
+    instance = initializeLibrary()
+  },
+}
 ```
 
 ### 3. Use setTimeout for DOM-Dependent Code
@@ -243,10 +248,10 @@ Never import Node.js modules in client code:
 
 ```typescript
 // ❌ BAD - fs doesn't exist in browser
-import fs from 'fs';
+import fs from 'fs'
 
 // ✅ GOOD - browser-safe imports only
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 ```
 
 ### 5. Keep Client Bundles Small
@@ -255,10 +260,10 @@ Client modules increase bundle size. Only import what you need:
 
 ```typescript
 // ❌ BAD - imports entire library
-import _ from 'lodash';
+import _ from 'lodash'
 
 // ✅ GOOD - imports only what you need
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce'
 ```
 
 ## Debugging Tips
@@ -268,9 +273,9 @@ import debounce from 'lodash/debounce';
 ```typescript
 export default {
   onRouteUpdate() {
-    console.log('[my-plugin] Client module loaded');
-  }
-};
+    console.log('[my-plugin] Client module loaded')
+  },
+}
 ```
 
 ### 2. Verify DOM Selectors

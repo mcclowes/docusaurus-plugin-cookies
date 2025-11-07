@@ -42,11 +42,11 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
   // Render markdown-like links in description
   const renderDescription = (text: string) => {
     if (!text) return null
-    
+
     // Simple markdown link parsing: [text](url)
     const parts = text.split(/(\[([^\]]+)\]\(([^)]+)\))/g)
     const elements: React.ReactNode[] = []
-    
+
     for (let i = 0; i < parts.length; i++) {
       if (i % 4 === 0 && parts[i]) {
         // Regular text
@@ -63,7 +63,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
         i += 2 // Skip the next two parts we already processed
       }
     }
-    
+
     return elements.length > 0 ? <>{elements}</> : text
   }
 
@@ -317,4 +317,3 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
     </>
   )
 }
-

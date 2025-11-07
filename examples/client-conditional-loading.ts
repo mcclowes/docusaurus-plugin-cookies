@@ -8,22 +8,22 @@
  * embedded in the client bundle.
  */
 
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
 // In a real plugin, you'd get these from globalData or inline them during build
 declare global {
   interface Window {
     DOCUSAURUS_PLUGIN_OPTIONS?: {
-      enabled?: boolean;
-      selector?: string;
-      theme?: 'light' | 'dark' | 'auto';
-    };
+      enabled?: boolean
+      selector?: string
+      theme?: 'light' | 'dark' | 'auto'
+    }
   }
 }
 
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
-    return null;
+    return null
   }
 
   // Get options from global data (would be set by plugin during build)
@@ -31,31 +31,32 @@ export default (function () {
     enabled: true,
     selector: '.markdown img',
     theme: 'auto',
-  };
+  }
 
   // Early return if plugin is disabled
   if (!options.enabled) {
-    return null;
+    return null
   }
 
   return {
     onRouteUpdate({ location }) {
-      console.log('Plugin running with options:', options);
+      console.log('Plugin running with options:', options)
 
       // Use the configured selector
-      const elements = document.querySelectorAll(options.selector);
+      const elements = document.querySelectorAll(options.selector)
 
       // Apply theme-aware styling
-      const theme = options.theme === 'auto'
-        ? (document.documentElement.getAttribute('data-theme') || 'light')
-        : options.theme;
+      const theme =
+        options.theme === 'auto'
+          ? document.documentElement.getAttribute('data-theme') || 'light'
+          : options.theme
 
       elements.forEach((element) => {
         if (element instanceof HTMLElement) {
-          element.setAttribute('data-plugin-theme', theme);
+          element.setAttribute('data-plugin-theme', theme)
           // Apply theme-specific enhancements
         }
-      });
+      })
     },
-  };
-})();
+  }
+})()
