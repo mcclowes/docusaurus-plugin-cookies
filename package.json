@@ -32,8 +32,8 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run --pool=threads --minWorkers=1 --maxWorkers=1",
-    "test:watch": "vitest --pool=threads --minWorkers=1 --maxWorkers=1",
+    "test": "vitest run --pool=threads --maxWorkers=1 --no-file-parallelism",
+    "test:watch": "vitest --pool=threads --maxWorkers=1 --no-file-parallelism",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
