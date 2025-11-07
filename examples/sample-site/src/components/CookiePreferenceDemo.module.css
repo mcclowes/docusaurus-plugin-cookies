@@ -1,0 +1,82 @@
+.wrapper {
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.summary {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin: 1.5rem 0;
+}
+
+.summary div {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.summary dt {
+  font-weight: var(--ifm-font-weight-semibold);
+  margin-bottom: 0.25rem;
+}
+
+.summary dd {
+  margin: 0;
+}
+
+.preferences {
+  background: var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.buttonPrimary,
+.buttonSecondary,
+.buttonGhost {
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: var(--ifm-font-weight-semibold);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.buttonPrimary {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse);
+}
+
+.buttonPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.buttonSecondary {
+  background: var(--ifm-color-secondary);
+  color: var(--ifm-font-color-base-inverse);
+}
+
+.buttonGhost {
+  background: transparent;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.buttonGhost:hover {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse);
+}
+
