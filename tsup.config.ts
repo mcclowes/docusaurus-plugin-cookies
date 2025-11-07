@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     'client/index': 'src/client/index.ts',
+    'client/CookieContext': 'src/client/CookieContext.tsx',
   },
   dts: true,
   format: ['cjs', 'esm'],
