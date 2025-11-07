@@ -27,6 +27,20 @@ const CookieConsentContext = createContext<CookieContextType | null>(null)
 export function useCookieConsent() {
   const context = useContext(CookieConsentContext)
   if (!context) {
+    // During SSR, provide safe defaults instead of throwing
+    if (typeof window === 'undefined') {
+      return {
+        preferences: null,
+        loading: true,
+        hasConsent: () => false,
+        hasCategoryConsent: () => false,
+        acceptAll: () => {},
+        rejectOptional: () => {},
+        rejectAll: () => {},
+        updatePreferences: () => {},
+        resetConsent: () => {},
+      }
+    }
     throw new Error('useCookieConsent must be used within CookieConsentProvider')
   }
   return context

@@ -53,7 +53,7 @@ const config: Config = {
         ],
         categories: {
           analytics: {
-            label: 'Analytics aookies',
+            label: 'Analytics cookies',
             description: 'Help us understand how visitors use the site.',
             enabled: true,
           },
