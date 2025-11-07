@@ -1,7 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react'
 import type { CookieCategory } from '../types'
-
-const isBrowser = typeof window !== 'undefined'
 
 export type CookiePreferences = {
   necessary: boolean
@@ -14,6 +12,7 @@ export type CookiePreferences = {
 
 type CookieContextType = {
   preferences: CookiePreferences | null
+  loading: boolean
   hasConsent: () => boolean
   hasCategoryConsent: (category: CookieCategory) => boolean
   acceptAll: () => void
@@ -23,41 +22,35 @@ type CookieContextType = {
   resetConsent: () => void
 }
 
-const CookieContext = createContext<CookieContextType | null>(null)
-
-const serverFallback: CookieContextType = {
-  preferences: null,
-  hasConsent: () => false,
-  hasCategoryConsent: () => false,
-  acceptAll: () => {},
-  rejectOptional: () => {},
-  rejectAll: () => {},
-  updatePreferences: () => {},
-  resetConsent: () => {},
-}
+const CookieConsentContext = createContext<CookieContextType | null>(null)
 
 export function useCookieConsent() {
-  const context = useContext(CookieContext)
+  const context = useContext(CookieConsentContext)
   if (!context) {
-    if (!isBrowser) {
-      return serverFallback
-    }
-    throw new Error('useCookieConsent must be used within a CookieProvider')
+    throw new Error('useCookieConsent must be used within CookieConsentProvider')
   }
   return context
 }
 
-type CookieProviderProps = {
+type CookieConsentProviderProps = {
   children: React.ReactNode
-  storageKey: string
+  storageKey?: string
 }
 
-export function CookieProvider({ children, storageKey }: CookieProviderProps) {
+export function CookieConsentProvider({
+  children,
+  storageKey = 'cookie-consent-preferences'
+}: CookieConsentProviderProps) {
   const [preferences, setPreferences] = useState<CookiePreferences | null>(null)
+  const [loading, setLoading] = useState(true)
 
   // Load preferences from localStorage on mount
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    // Skip during SSR
+    if (typeof window === 'undefined') {
+      setLoading(false)
+      return
+    }
 
     try {
       const stored = localStorage.getItem(storageKey)
@@ -70,19 +63,25 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
         '[docusaurus-plugin-cookie-consent] Failed to load preferences from localStorage:',
         error
       )
+    } finally {
+      setLoading(false)
     }
   }, [storageKey])
 
-  // Save preferences to localStorage whenever they change
-  useEffect(() => {
-    if (typeof window === 'undefined' || !preferences) return
-
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(preferences))
-    } catch (error) {
-      console.warn('[docusaurus-plugin-cookie-consent] Failed to save preferences to localStorage:', error)
+  // Update consent helper
+  const updateConsent = useCallback((value: CookiePreferences) => {
+    setPreferences(value)
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(value))
+      } catch (error) {
+        console.warn(
+          '[docusaurus-plugin-cookie-consent] Failed to save preferences to localStorage:',
+          error
+        )
+      }
     }
-  }, [preferences, storageKey])
+  }, [storageKey])
 
   const hasConsent = useCallback(() => {
     return preferences?.consentGiven ?? false
@@ -99,7 +98,7 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
   )
 
   const acceptAll = useCallback(() => {
-    setPreferences({
+    updateConsent({
       necessary: true,
       analytics: true,
       marketing: true,
@@ -107,10 +106,10 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
       consentGiven: true,
       timestamp: Date.now(),
     })
-  }, [])
+  }, [updateConsent])
 
   const rejectOptional = useCallback(() => {
-    setPreferences({
+    updateConsent({
       necessary: true,
       analytics: false,
       marketing: false,
@@ -118,18 +117,19 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
       consentGiven: true,
       timestamp: Date.now(),
     })
-  }, [])
+  }, [updateConsent])
 
   const rejectAll = useCallback(() => {
-    setPreferences({
-      necessary: true, // Necessary cookies cannot be rejected
+    // Same as rejectOptional - necessary cookies cannot be rejected
+    updateConsent({
+      necessary: true,
       analytics: false,
       marketing: false,
       functional: false,
       consentGiven: true,
       timestamp: Date.now(),
     })
-  }, [])
+  }, [updateConsent])
 
   const updatePreferences = useCallback((prefs: Partial<CookiePreferences>) => {
     setPreferences((prev) => {
@@ -138,29 +138,42 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
         analytics: prefs.analytics ?? prev?.analytics ?? false,
         marketing: prefs.marketing ?? prev?.marketing ?? false,
         functional: prefs.functional ?? prev?.functional ?? false,
-        consentGiven: prefs.consentGiven ?? prev?.consentGiven ?? false,
+        consentGiven: prefs.consentGiven ?? prev?.consentGiven ?? true,
         timestamp: Date.now(),
       }
 
-      return {
-        ...next,
-        consentGiven: prefs.consentGiven ?? true,
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(next))
+        } catch (error) {
+          console.warn(
+            '[docusaurus-plugin-cookie-consent] Failed to save preferences:',
+            error
+          )
+        }
       }
+
+      return next
     })
-  }, [])
+  }, [storageKey])
 
   const resetConsent = useCallback(() => {
-    if (typeof window === 'undefined') return
-    try {
-      localStorage.removeItem(storageKey)
-      setPreferences(null)
-    } catch (error) {
-      console.warn('[docusaurus-plugin-cookie-consent] Failed to reset consent:', error)
+    setPreferences(null)
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem(storageKey)
+      } catch (error) {
+        console.warn(
+          '[docusaurus-plugin-cookie-consent] Failed to reset consent:',
+          error
+        )
+      }
     }
   }, [storageKey])
 
   const value: CookieContextType = {
     preferences,
+    loading,
     hasConsent,
     hasCategoryConsent,
     acceptAll,
@@ -170,5 +183,11 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
     resetConsent,
   }
 
-  return <CookieContext.Provider value={value}>{children}</CookieContext.Provider>
+  return (
+    <CookieConsentContext.Provider value={value}>
+      {children}
+    </CookieConsentContext.Provider>
+  )
 }
+
+export default CookieConsentProvider
