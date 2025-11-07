@@ -11,7 +11,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: 'es2020',
-  external: ['./client', '@docusaurus/ExecutionEnvironment'],
+  external: ['@docusaurus/ExecutionEnvironment'],
   esbuildOptions(options) {
     options.logOverride = {
       'empty-import-meta': 'silent',
