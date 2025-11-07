@@ -1,29 +1,39 @@
 import React from 'react'
-import { CookieProvider } from './CookieContext'
-import { CookieConsentModal } from './CookieConsentModal'
-import type { CookieConsentOptions } from '../types'
+import { CookieConsentProvider } from './Provider'
 
-// Access plugin data via global variable set by Docusaurus
-function usePluginData(): CookieConsentOptions | null {
+// Access plugin data from Docusaurus global
+function getPluginOptions() {
   if (typeof window === 'undefined') return null
 
   try {
     const globalData = (window as any).docusaurus?.globalData
-    const pluginData = globalData?.['docusaurus-plugin-cookie-consent']?.default
-    return pluginData?.options ?? null
+    return globalData?.['docusaurus-plugin-cookie-consent']?.default?.options ?? null
   } catch {
     return null
   }
 }
 
+function ClientOnlyModal() {
+  // Only render on client side
+  if (typeof window === 'undefined') return null
+
+  const options = getPluginOptions()
+  if (!options) return null
+
+  // Dynamic import to avoid SSR
+  const { CookieConsentModal } = require('./Modal')
+  return <CookieConsentModal options={options} />
+}
+
 export default function Root({ children }: { children: React.ReactNode }): JSX.Element {
-  const options = usePluginData()
-  const storageKey = options?.storageKey ?? 'cookie-consent-preferences'
+  const storageKey = typeof window !== 'undefined'
+    ? (getPluginOptions()?.storageKey ?? 'cookie-consent-preferences')
+    : 'cookie-consent-preferences'
 
   return (
-    <CookieProvider storageKey={storageKey}>
-      {options && <CookieConsentModal options={options} />}
+    <CookieConsentProvider storageKey={storageKey}>
       {children}
-    </CookieProvider>
+      <ClientOnlyModal />
+    </CookieConsentProvider>
   )
 }
