@@ -53,17 +53,17 @@ const config: Config = {
         ],
         categories: {
           analytics: {
-            label: 'Analytics Cookies',
+            label: 'Analytics aookies',
             description: 'Help us understand how visitors use the site.',
             enabled: true,
           },
           marketing: {
-            label: 'Marketing Cookies',
+            label: 'Marketing cookies',
             description: 'Used to personalize content based on your interests.',
             enabled: false,
           },
           functional: {
-            label: 'Functional Cookies',
+            label: 'Functional cookies',
             description: 'Enable additional site functionality and preferences.',
             enabled: true,
           },

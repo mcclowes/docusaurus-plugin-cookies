@@ -1,9 +1,25 @@
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { LoadContext, Plugin } from '@docusaurus/types'
 import type { CookieConsentOptions } from './types'
 
-const resolveClientModulePath = () => {
+const resolveClientModulePath = (context: LoadContext) => {
+  // Prefer resolving through the installed package path so bundlers like Vite
+  // can treat it as a dependency under node_modules (required for CommonJS interop).
+  const nodeModulesPath = join(
+    context.siteDir,
+    'node_modules',
+    'docusaurus-plugin-cookie-consent',
+    'dist',
+    'client',
+    'index.js'
+  )
+
+  if (existsSync(nodeModulesPath)) {
+    return nodeModulesPath
+  }
+
   try {
     if (typeof __dirname === 'string') {
       return join(__dirname, 'client/index.js')
@@ -13,6 +29,42 @@ const resolveClientModulePath = () => {
   }
 
   return fileURLToPath(new URL('./client/index.js', import.meta.url))
+}
+
+const resolveThemePath = () => {
+  try {
+    if (typeof __dirname === 'string') {
+      return join(__dirname, 'theme')
+    }
+  } catch {
+    // noop - fall back to ESM resolution below
+  }
+
+  return fileURLToPath(new URL('./theme', import.meta.url))
+}
+
+const resolveTypeScriptThemePath = () => {
+  const candidates: string[] = []
+
+  try {
+    if (typeof __dirname === 'string') {
+      candidates.push(join(__dirname, '../src/theme'))
+    }
+  } catch {
+    // noop - fall back to ESM resolution below
+  }
+
+  if (typeof import.meta !== 'undefined' && typeof import.meta.url === 'string') {
+    candidates.push(fileURLToPath(new URL('../src/theme', import.meta.url)))
+  }
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return candidate
+    }
+  }
+
+  return undefined
 }
 
 type ResolvedCookieConsentOptions = Required<
@@ -29,6 +81,10 @@ export default function cookieConsentPlugin(
   context: LoadContext,
   options: CookieConsentOptions = {}
 ): Plugin<CookieConsentPluginContent | undefined> {
+  const clientModulePath = resolveClientModulePath(context)
+  const themePath = resolveThemePath()
+  const typeScriptThemePath = resolveTypeScriptThemePath()
+
   const resolvedOptions: ResolvedCookieConsentOptions = {
     enabled: options.enabled ?? true,
     title: options.title ?? 'Cookie Consent',
@@ -46,6 +102,12 @@ export default function cookieConsentPlugin(
 
   return {
     name: 'docusaurus-plugin-cookie-consent',
+    getThemePath() {
+      return themePath
+    },
+    getTypeScriptThemePath() {
+      return typeScriptThemePath ?? themePath
+    },
 
     // Called during site build/serve. Use to produce data to be consumed later.
     async loadContent() {
@@ -65,7 +127,7 @@ export default function cookieConsentPlugin(
     // Optionally ship client modules. These run on the client bundle.
     getClientModules() {
       if (!resolvedOptions.enabled) return []
-      return [resolveClientModulePath()]
+      return [clientModulePath]
     },
   }
 }

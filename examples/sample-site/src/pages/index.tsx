@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import Heading from '@theme/Heading'
-import CookiePreferenceDemo from '../components/CookiePreferenceDemo.js'
+import CookiePreferenceDemo from '../components/CookiePreferenceDemo'
 
 export default function Home(): JSX.Element {
   return (

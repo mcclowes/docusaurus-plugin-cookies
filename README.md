@@ -1,5 +1,10 @@
 # Docusaurus Plugin Cookie Consent
 
+[![npm version](https://img.shields.io/npm/v/docusaurus-plugin-cookie-consent)](https://www.npmjs.com/package/docusaurus-plugin-cookie-consent)
+[![CI](https://github.com/mcclowes/docusaurus-plugin-cookie-consent/actions/workflows/ci.yml/badge.svg)](https://github.com/mcclowes/docusaurus-plugin-cookie-consent/actions/workflows/ci.yml)
+
+![](banner.png)
+
 A cookie consent modal/toast component for Docusaurus sites with configurable text, links, and preference management. Automatically inserts a GDPR-compliant cookie consent banner into your Docusaurus site.
 
 ## Features
@@ -332,7 +337,7 @@ To customize the appearance, you can:
 1. **Override with CSS**: Add custom CSS to your Docusaurus site that targets the cookie consent elements
 2. **Use browser dev tools**: Inspect the elements and add custom styles via your site's CSS
 
-The modal container has the ID `cookie-consent-root` for easy targeting.
+Because the plugin renders without static IDs or classes, target elements using attribute selectors (for example, `[role="dialog"]`) or wrap the banner in your own container for easier styling.
 
 ## TypeScript Support
 

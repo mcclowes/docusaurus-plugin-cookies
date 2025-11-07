@@ -3,8 +3,4 @@ declare module '*.module.css' {
   export default classes
 }
 
-declare module 'docusaurus-plugin-cookie-consent/client' {
-  export * from 'docusaurus-plugin-cookie-consent/dist/client/CookieContext.js'
-  export { default } from 'docusaurus-plugin-cookie-consent/dist/client/index.js'
-}
 

@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import type { CookieCategory } from '../types'
 
+const isBrowser = typeof window !== 'undefined'
+
 export type CookiePreferences = {
   necessary: boolean
   analytics: boolean
@@ -23,9 +25,23 @@ type CookieContextType = {
 
 const CookieContext = createContext<CookieContextType | null>(null)
 
+const serverFallback: CookieContextType = {
+  preferences: null,
+  hasConsent: () => false,
+  hasCategoryConsent: () => false,
+  acceptAll: () => {},
+  rejectOptional: () => {},
+  rejectAll: () => {},
+  updatePreferences: () => {},
+  resetConsent: () => {},
+}
+
 export function useCookieConsent() {
   const context = useContext(CookieContext)
   if (!context) {
+    if (!isBrowser) {
+      return serverFallback
+    }
     throw new Error('useCookieConsent must be used within a CookieProvider')
   }
   return context

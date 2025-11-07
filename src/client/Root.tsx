@@ -18,15 +18,12 @@ function usePluginData(): CookieConsentOptions | null {
 
 export default function Root({ children }: { children: React.ReactNode }): JSX.Element {
   const options = usePluginData()
+  const storageKey = options?.storageKey ?? 'cookie-consent-preferences'
 
   return (
-    <>
-      {options && (
-        <CookieProvider storageKey={options.storageKey || 'cookie-consent-preferences'}>
-          <CookieConsentModal options={options} />
-        </CookieProvider>
-      )}
+    <CookieProvider storageKey={storageKey}>
+      {options && <CookieConsentModal options={options} />}
       {children}
-    </>
+    </CookieProvider>
   )
 }
