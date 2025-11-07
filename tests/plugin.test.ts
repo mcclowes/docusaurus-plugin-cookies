@@ -3,7 +3,10 @@ import { describe, expect, it, vi } from 'vitest'
 
 import cookieConsentPlugin from '../src/plugin'
 
-const createContext = (): LoadContext => ({}) as LoadContext
+const createContext = (): LoadContext =>
+  ({
+    siteDir: '/tmp/test-site',
+  }) as LoadContext
 
 describe('cookieConsentPlugin', () => {
   it('skips content and client modules when disabled', async () => {
@@ -16,7 +19,7 @@ describe('cookieConsentPlugin', () => {
   })
 
   it('resolves default options when enabled', async () => {
-    const plugin = cookieConsentPlugin(createContext())
+    const plugin = cookieConsentPlugin(createContext(), { enabled: true })
 
     const content = await plugin.loadContent?.()
 
@@ -29,11 +32,12 @@ describe('cookieConsentPlugin', () => {
     const clientModules = plugin.getClientModules?.() ?? []
     expect(clientModules).toHaveLength(1)
     const normalizedPath = clientModules[0]!.replace(/\\/g, '/')
-    expect(normalizedPath).toMatch(/client\/index\.js$/)
+    expect(normalizedPath).toMatch(/client\/clientModule\.js$/)
   })
 
   it('sets global data with resolved options during contentLoaded', async () => {
     const plugin = cookieConsentPlugin(createContext(), {
+      enabled: true,
       title: 'Custom Title',
       links: [{ text: 'Privacy Policy', url: '/privacy' }],
     })
