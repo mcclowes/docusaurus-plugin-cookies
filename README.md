@@ -1,4 +1,4 @@
-# Docusaurus Plugin Cookies
+# Docusaurus Plugin Cookie Consent
 
 A cookie consent modal/toast component for Docusaurus sites with configurable text, links, and preference management. Automatically inserts a GDPR-compliant cookie consent banner into your Docusaurus site.
 
