@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 import { useCookieConsent } from './CookieContext'
 import type { CookieConsentOptions, CookieCategory } from '../types'
@@ -11,6 +11,8 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
   const { preferences, acceptAll, rejectOptional, rejectAll } = useCookieConsent()
   const [isVisible, setIsVisible] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     // Only show if consent hasn't been given
@@ -19,6 +21,79 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
       setTimeout(() => setIsVisible(true), 100)
     }
   }, [preferences])
+
+  // Focus management and keyboard navigation
+  useEffect(() => {
+    if (!isVisible || !ExecutionEnvironment.canUseDOM) return
+
+    // Store the previously focused element to restore focus later
+    previousActiveElement.current = document.activeElement as HTMLElement
+
+    // Focus the modal when it opens
+    const focusModal = () => {
+      if (modalRef.current) {
+        // Try to focus the first button, or the modal itself
+        const firstButton = modalRef.current.querySelector('button')
+        if (firstButton) {
+          firstButton.focus()
+        } else {
+          modalRef.current.focus()
+        }
+      }
+    }
+
+    // Small delay to ensure DOM is ready
+    setTimeout(focusModal, 50)
+
+    // Handle keyboard events
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        // ESC key - treat as reject all
+        handleRejectAll()
+      } else if (e.key === 'Tab') {
+        // Focus trapping
+        if (!modalRef.current) return
+
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+        const focusableArray = Array.from(focusableElements)
+        const firstElement = focusableArray[0]
+        const lastElement = focusableArray[focusableArray.length - 1]
+
+        if (e.shiftKey) {
+          // Shift + Tab: moving backwards
+          if (document.activeElement === firstElement) {
+            e.preventDefault()
+            lastElement?.focus()
+          }
+        } else {
+          // Tab: moving forwards
+          if (document.activeElement === lastElement) {
+            e.preventDefault()
+            firstElement?.focus()
+          }
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    // Prevent body from scrolling when modal is open
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = originalOverflow
+
+      // Restore focus to previous element
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus()
+      }
+    }
+  }, [isVisible])
 
   if (!ExecutionEnvironment.canUseDOM || !isVisible) {
     return null
@@ -56,8 +131,17 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
         const linkText = parts[i + 1]
         const linkUrl = parts[i + 2]
         elements.push(
-          <a key={i} href={linkUrl} target="_blank" rel="noopener noreferrer">
+          <a
+            key={i}
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${linkText} (opens in new tab)`}
+          >
             {linkText}
+            <span style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: '0' }}>
+              {' '}(opens in new tab)
+            </span>
           </a>
         )
         i += 2 // Skip the next two parts we already processed
@@ -91,6 +175,12 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
 
   const modalContent = (
     <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cookie-consent-title"
+      aria-describedby="cookie-consent-description"
+      tabIndex={-1}
       style={{
         position: 'fixed',
         top: options.toastMode ? 'auto' : '50%',
@@ -111,6 +201,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
       }}
     >
       <h2
+        id="cookie-consent-title"
         style={{
           margin: '0 0 16px 0',
           fontSize: '24px',
@@ -122,6 +213,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
       </h2>
 
       <div
+        id="cookie-consent-description"
         style={{
           marginBottom: '20px',
           fontSize: '14px',
@@ -140,6 +232,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${link.label} (opens in new tab)`}
               style={{
                 color: '#0066cc',
                 textDecoration: 'none',
@@ -148,6 +241,9 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
               }}
             >
               {link.label}
+              <span style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: '0' }}>
+                {' '}(opens in new tab)
+              </span>
             </a>
           ))}
         </div>
@@ -296,10 +392,10 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
 
   return (
     <>
-      {modalContent}
-      {/* Backdrop overlay */}
+      {/* Backdrop overlay - render before modal so modal is on top */}
       {!options.toastMode && (
         <div
+          aria-hidden="true"
           style={{
             position: 'fixed',
             top: 0,
@@ -309,11 +405,19 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             zIndex: 9999,
           }}
-          onClick={() => {
+          onClick={(e) => {
+            // Prevent clicks from reaching elements behind the backdrop
+            e.preventDefault()
+            e.stopPropagation()
             // Don't close on backdrop click - user must make a choice
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
           }}
         />
       )}
+      {modalContent}
     </>
   )
 }
