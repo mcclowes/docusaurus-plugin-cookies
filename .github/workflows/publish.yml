@@ -1,9 +1,9 @@
 name: Publish to npm
 
 on:
-  release:
-    types:
-      - published
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -11,24 +11,67 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Read current version
+        id: current_version
+        run: |
+          echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Read previous version
+        id: previous_version
+        run: |
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            prev=$(git show HEAD^:package.json 2>/dev/null | jq -r '.version // empty')
+            echo "version=$prev" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check for version bump
+        id: version_bump
+        run: |
+          prev="${{ steps.previous_version.outputs.version }}"
+          current="${{ steps.current_version.outputs.version }}"
+
+          if [ -z "$current" ]; then
+            echo "Current package version is missing" >&2
+            exit 1
+          fi
+
+          if [ -z "$prev" ] || [ "$prev" != "$current" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+          always-auth: true
 
       - name: Install dependencies
+        if: steps.version_bump.outputs.changed == 'true'
         run: npm ci
 
       - name: Build package
+        if: steps.version_bump.outputs.changed == 'true'
         run: npm run build
 
       - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: steps.version_bump.outputs.changed == 'true'
         run: npm publish --access public
+
+      - name: Skip publish (no version change)
+        if: steps.version_bump.outputs.changed != 'true'
+        run: echo "No version bump detected. Skipping publish."
 
