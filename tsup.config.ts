@@ -9,6 +9,11 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   sourcemap: true,
   clean: true,
-  target: 'es2019',
-  external: ['./client'],
+  target: 'es2020',
+  external: ['./client', '@docusaurus/ExecutionEnvironment'],
+  esbuildOptions(options) {
+    options.logOverride = {
+      'empty-import-meta': 'silent',
+    }
+  },
 })

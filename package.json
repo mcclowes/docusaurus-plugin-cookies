@@ -1,21 +1,21 @@
 {
-  "name": "docusaurus-plugin-cookies",
+  "name": "docusaurus-plugin-cookie-consent",
   "version": "1.0.0",
   "description": "A cookie consent modal/toast component for Docusaurus sites with configurable text, links, and preference management.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./client": {
       "types": "./dist/client/index.d.ts",
-      "import": "./dist/client/index.mjs",
+      "import": "./dist/client/index.js",
       "require": "./dist/client/index.cjs"
     }
   },
@@ -34,14 +34,16 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@docusaurus/types": "^2.4.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@docusaurus/core": "^3.0.0",
+    "@docusaurus/types": "^3.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "^2.4.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@docusaurus/core": "^3.0.0",
+    "@docusaurus/types": "^3.0.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "tsup": "^8.0.1",

@@ -1,5 +1,19 @@
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { LoadContext, Plugin } from '@docusaurus/types'
 import type { CookieConsentOptions } from './types'
+
+const resolveClientModulePath = () => {
+  try {
+    if (typeof __dirname === 'string') {
+      return join(__dirname, 'client/index.js')
+    }
+  } catch {
+    // noop - fall back to ESM resolution below
+  }
+
+  return fileURLToPath(new URL('./client/index.js', import.meta.url))
+}
 
 type ResolvedCookieConsentOptions = Required<
   Omit<CookieConsentOptions, 'categories'>
@@ -51,7 +65,7 @@ export default function cookieConsentPlugin(
     // Optionally ship client modules. These run on the client bundle.
     getClientModules() {
       if (!resolvedOptions.enabled) return []
-      return [require.resolve('./client')]
+      return [resolveClientModulePath()]
     },
   }
 }

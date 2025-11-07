@@ -13,6 +13,11 @@ A cookie consent modal/toast component for Docusaurus sites with configurable te
 - ✅ **Cookie categories** (Necessary, Analytics, Marketing, Functional)
 - ✅ **TypeScript support** with full type definitions
 
+## Compatibility
+
+- Docusaurus `^3.0.0`
+- React `^18.2.0`
+
 ## Installation
 
 ```bash
@@ -21,11 +26,13 @@ npm install docusaurus-plugin-cookies
 
 ## Quick Start
 
-Add the plugin to your `docusaurus.config.js` or `docusaurus.config.ts`:
+Add the plugin to your `docusaurus.config.ts` (or `.js`) configuration:
 
-```js
-// docusaurus.config.js
-module.exports = {
+```ts
+// docusaurus.config.ts
+import type { Config } from '@docusaurus/types'
+
+const config: Config = {
   // ... existing config ...
   plugins: [
     [
@@ -41,6 +48,8 @@ module.exports = {
     ],
   ],
 }
+
+export default config
 ```
 
 That's it! The cookie consent banner will automatically appear on your site.
@@ -112,9 +121,11 @@ That's it! The cookie consent banner will automatically appear on your site.
 
 ### Complete Example
 
-```js
-// docusaurus.config.js
-module.exports = {
+```ts
+// docusaurus.config.ts
+import type { Config } from '@docusaurus/types'
+
+const config: Config = {
   plugins: [
     [
       'docusaurus-plugin-cookies',
@@ -155,6 +166,8 @@ module.exports = {
     ],
   ],
 }
+
+export default config
 ```
 
 ## Using the Cookie Consent Hook

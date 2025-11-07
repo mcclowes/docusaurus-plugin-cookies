@@ -67,7 +67,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
     return elements.length > 0 ? <>{elements}</> : text
   }
 
-  const defaultCategories: Record<CookieCategory, { label: string; description: string }> = {
+  const defaultCategories: Record<CookieCategory, { label: string; description: string; enabled?: boolean }> = {
     necessary: {
       label: 'Necessary',
       description: 'Essential cookies required for the website to function properly.',
