@@ -13,7 +13,7 @@ const resolveClientModulePath = (context: LoadContext) => {
     'docusaurus-plugin-cookie-consent',
     'dist',
     'client',
-    'index.js'
+    'clientModule.js'
   )
 
   if (existsSync(nodeModulesPath)) {
@@ -22,13 +22,13 @@ const resolveClientModulePath = (context: LoadContext) => {
 
   try {
     if (typeof __dirname === 'string') {
-      return join(__dirname, 'client/index.js')
+      return join(__dirname, 'client/clientModule.js')
     }
   } catch {
     // noop - fall back to ESM resolution below
   }
 
-  return fileURLToPath(new URL('./client/index.js', import.meta.url))
+  return fileURLToPath(new URL('./client/clientModule.js', import.meta.url))
 }
 
 const resolveThemePath = () => {
@@ -81,16 +81,14 @@ export default function cookieConsentPlugin(
   context: LoadContext,
   options: CookieConsentOptions = {}
 ): Plugin<CookieConsentPluginContent | undefined> {
-  if (process.env.NODE_ENV !== 'production') {
-    return null;
-  }
-  
   const clientModulePath = resolveClientModulePath(context)
   const themePath = resolveThemePath()
   const typeScriptThemePath = resolveTypeScriptThemePath()
 
+  // Only enable in production by default, but allow override
+  const enabledByDefault = process.env.NODE_ENV === 'production'
   const resolvedOptions: ResolvedCookieConsentOptions = {
-    enabled: options.enabled ?? true,
+    enabled: options.enabled ?? enabledByDefault,
     title: options.title ?? 'Cookie Consent',
     description:
       options.description ??
@@ -106,12 +104,14 @@ export default function cookieConsentPlugin(
 
   return {
     name: 'docusaurus-plugin-cookie-consent',
-    getThemePath() {
-      return themePath
-    },
-    getTypeScriptThemePath() {
-      return typeScriptThemePath ?? themePath
-    },
+    // Don't swizzle Root to avoid SSR issues
+    // Users can manually wrap components that use the hook with BrowserOnly
+    // getThemePath() {
+    //   return themePath
+    // },
+    // getTypeScriptThemePath() {
+    //   return typeScriptThemePath ?? themePath
+    // },
 
     // Called during site build/serve. Use to produce data to be consumed later.
     async loadContent() {

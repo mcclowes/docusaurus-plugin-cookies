@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '@theme/Layout'
 import Heading from '@theme/Heading'
-import CookiePreferenceDemo from '../components/CookiePreferenceDemo'
+import BrowserOnly from '@docusaurus/BrowserOnly'
 
 export default function Home(): JSX.Element {
   return (
@@ -32,7 +32,12 @@ export default function Home(): JSX.Element {
           </p>
         </section>
 
-        <CookiePreferenceDemo />
+        <BrowserOnly fallback={<div>Loading cookie preferences demo...</div>}>
+          {() => {
+            const CookiePreferenceDemo = require('../components/CookiePreferenceDemo').default
+            return <CookiePreferenceDemo />
+          }}
+        </BrowserOnly>
       </main>
     </Layout>
   )
