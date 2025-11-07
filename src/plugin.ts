@@ -81,6 +81,10 @@ export default function cookieConsentPlugin(
   context: LoadContext,
   options: CookieConsentOptions = {}
 ): Plugin<CookieConsentPluginContent | undefined> {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+  
   const clientModulePath = resolveClientModulePath(context)
   const themePath = resolveThemePath()
   const typeScriptThemePath = resolveTypeScriptThemePath()
