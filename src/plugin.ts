@@ -45,7 +45,7 @@ export default function cookieConsentPlugin(
   }
 
   return {
-    name: 'docusaurus-plugin-cookies',
+    name: 'docusaurus-plugin-cookie-consent',
 
     // Called during site build/serve. Use to produce data to be consumed later.
     async loadContent() {

@@ -14,9 +14,9 @@ function getPluginOptions(): CookieConsentOptions | null {
   const globalData = docusaurus?.globalData
 
   const pluginData =
-    globalData?.['docusaurus-plugin-cookies']?.default ??
-    docusaurus?.pluginData?.['docusaurus-plugin-cookies']?.default ??
-    docusaurus?.plugin?.data?.['docusaurus-plugin-cookies']?.default
+    globalData?.['docusaurus-plugin-cookie-consent']?.default ??
+    docusaurus?.pluginData?.['docusaurus-plugin-cookie-consent']?.default ??
+    docusaurus?.plugin?.data?.['docusaurus-plugin-cookie-consent']?.default
 
   return pluginData?.options ?? null
 }
@@ -90,7 +90,7 @@ function initializeCookieConsent() {
         </React.StrictMode>
       )
     } catch (error) {
-      console.error('[docusaurus-plugin-cookies] Failed to render cookie consent:', error)
+      console.error('[docusaurus-plugin-cookie-consent] Failed to render cookie consent:', error)
     }
   }
 

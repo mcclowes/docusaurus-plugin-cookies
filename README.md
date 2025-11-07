@@ -21,7 +21,7 @@ A cookie consent modal/toast component for Docusaurus sites with configurable te
 ## Installation
 
 ```bash
-npm install docusaurus-plugin-cookies
+npm install docusaurus-plugin-cookie-consent
 ```
 
 ## Quick Start
@@ -36,7 +36,7 @@ const config: Config = {
   // ... existing config ...
   plugins: [
     [
-      'docusaurus-plugin-cookies',
+      'docusaurus-plugin-cookie-consent',
       {
         title: 'Cookie Consent',
         description: 'We use cookies to enhance your browsing experience and analyze our traffic.',
@@ -128,7 +128,7 @@ import type { Config } from '@docusaurus/types'
 const config: Config = {
   plugins: [
     [
-      'docusaurus-plugin-cookies',
+      'docusaurus-plugin-cookie-consent',
       {
         title: 'We Value Your Privacy',
         description:
@@ -178,7 +178,7 @@ The plugin provides a React hook that you can use in your components to check co
 
 ```tsx
 import React from 'react'
-import { useCookieConsent } from 'docusaurus-plugin-cookies'
+import { useCookieConsent } from 'docusaurus-plugin-cookie-consent'
 
 export default function AnalyticsComponent() {
   const { hasCategoryConsent, hasConsent } = useCookieConsent()
@@ -245,7 +245,7 @@ type CookiePreferences = {
 
 ```tsx
 import React, { useEffect } from 'react'
-import { useCookieConsent } from 'docusaurus-plugin-cookies'
+import { useCookieConsent } from 'docusaurus-plugin-cookie-consent'
 
 export default function ConditionalAnalytics() {
   const { hasCategoryConsent } = useCookieConsent()
@@ -276,7 +276,7 @@ export default function ConditionalAnalytics() {
 
 ```tsx
 import React from 'react'
-import { useCookieConsent } from 'docusaurus-plugin-cookies'
+import { useCookieConsent } from 'docusaurus-plugin-cookie-consent'
 
 export default function PersonalizedContent() {
   const { hasCategoryConsent } = useCookieConsent()
@@ -308,7 +308,7 @@ User preferences are automatically saved to `localStorage` using the key specifi
 To reset consent and show the banner again:
 
 ```tsx
-import { useCookieConsent } from 'docusaurus-plugin-cookies'
+import { useCookieConsent } from 'docusaurus-plugin-cookie-consent'
 
 function ResetButton() {
   const { resetConsent } = useCookieConsent()
@@ -344,7 +344,7 @@ import type {
   CookieCategory,
   CookieConsentLink,
   CookiePreferences,
-} from 'docusaurus-plugin-cookies'
+} from 'docusaurus-plugin-cookie-consent'
 ```
 
 ## Development
@@ -369,13 +369,13 @@ To test the plugin in a local Docusaurus site:
 
 ```bash
 # From your Docusaurus site directory
-npm install ../path/to/docusaurus-plugin-cookies
+npm install ../path/to/docusaurus-plugin-cookie-consent
 
 # Or create a tarball
-cd ../path/to/docusaurus-plugin-cookies
+cd ../path/to/docusaurus-plugin-cookie-consent
 npm pack
 cd ../../your-docusaurus-site
-npm install ../path/to/docusaurus-plugin-cookies/docusaurus-plugin-cookies-*.tgz
+npm install ../path/to/docusaurus-plugin-cookie-consent/docusaurus-plugin-cookie-consent-*.tgz
 ```
 
 Then add the plugin to your `docusaurus.config.js` as shown above.

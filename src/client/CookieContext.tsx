@@ -51,7 +51,7 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
       }
     } catch (error) {
       console.warn(
-        '[docusaurus-plugin-cookies] Failed to load preferences from localStorage:',
+        '[docusaurus-plugin-cookie-consent] Failed to load preferences from localStorage:',
         error
       )
     }
@@ -64,7 +64,7 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
     try {
       localStorage.setItem(storageKey, JSON.stringify(preferences))
     } catch (error) {
-      console.warn('[docusaurus-plugin-cookies] Failed to save preferences to localStorage:', error)
+      console.warn('[docusaurus-plugin-cookie-consent] Failed to save preferences to localStorage:', error)
     }
   }, [preferences, storageKey])
 
@@ -139,7 +139,7 @@ export function CookieProvider({ children, storageKey }: CookieProviderProps) {
       localStorage.removeItem(storageKey)
       setPreferences(null)
     } catch (error) {
-      console.warn('[docusaurus-plugin-cookies] Failed to reset consent:', error)
+      console.warn('[docusaurus-plugin-cookie-consent] Failed to reset consent:', error)
     }
   }, [storageKey])
 
