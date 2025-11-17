@@ -1,5 +1,5 @@
 /* Overlay backdrop */
-.overlay {
+.cookie-consent-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,45 +7,45 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Modal container */
-.modal {
-  position: relative;
-  max-width: 600px;
+.cookie-consent-modal {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  max-width: 500px;
   width: 90%;
   max-height: 90vh;
-  background-color: var(--ifm-background-surface-color, #ffffff);
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  padding: 24px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 2rem;
   overflow-y: auto;
+  z-index: 10000;
   font-family: var(--ifm-font-family-base, system-ui, -apple-system, sans-serif);
   color: var(--ifm-font-color-base, #1a1a1a);
 }
 
 /* Toast mode - bottom banner instead of centered modal */
-.toast {
+.cookie-consent-toast {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  max-width: 100%;
-  width: calc(100% - 40px);
+  bottom: 10px;
+  left: 10px;
+  max-width: 500px;
+  width: 90%;
   max-height: 400px;
   z-index: 10000;
 }
 
-.toastOverlay {
+.cookie-consent-toastOverlay {
   background-color: transparent;
   pointer-events: none;
 }
 
 /* Modal title */
-.title {
+.cookie-consent-title {
   margin: 0 0 16px 0;
   font-size: 24px;
   font-weight: 600;
@@ -53,37 +53,37 @@
 }
 
 /* Modal description */
-.description {
+.cookie-consent-description {
   margin-bottom: 20px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--ifm-font-color-base, #4a4a4a);
 }
 
-.description a {
+.cookie-consent-description a {
   color: var(--ifm-link-color, #0066cc);
   text-decoration: none;
 }
 
-.description a:hover {
+.cookie-consent-description a:hover {
   text-decoration: underline;
 }
 
 /* Links section */
-.links {
+.cookie-consent-links {
   margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
 }
 
-.links a {
+.cookie-consent-links a {
   color: var(--ifm-link-color, #0066cc);
   text-decoration: none;
   font-size: 14px;
 }
 
-.links a:hover {
+.cookie-consent-links a:hover {
   text-decoration: underline;
 }
 
@@ -101,40 +101,40 @@
   font-weight: 600;
 }
 
-.category {
+.cookie-consent-category {
   margin-bottom: 12px;
 }
 
-.categoryLabel {
+.cookie-consent-categoryLabel {
   font-weight: 500;
   margin-bottom: 4px;
 }
 
-.categoryRequired {
+.cookie-consent-categoryRequired {
   margin-left: 8px;
   font-size: 12px;
   color: var(--ifm-color-emphasis-600, #666);
 }
 
-.categoryDescription {
+.cookie-consent-categoryDescription {
   font-size: 13px;
   color: var(--ifm-color-emphasis-600, #666);
 }
 
 /* Buttons container */
-.buttons {
+.cookie-consent-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.buttonsToast {
+.cookie-consent-buttonsToast {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 /* Button base styles */
-.button {
+.cookie-consent-button {
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
@@ -145,47 +145,47 @@
   font-family: inherit;
 }
 
-.button:disabled {
+.cookie-consent-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* Primary button (Accept) */
-.buttonPrimary {
+.cookie-consent-buttonPrimary {
   background-color: var(--ifm-color-primary, #0066cc);
   color: #ffffff;
   border: none;
 }
 
-.buttonPrimary:hover:not(:disabled) {
+.cookie-consent-buttonPrimary:hover:not(:disabled) {
   background-color: var(--ifm-color-primary-dark, #0052a3);
 }
 
 /* Secondary button (Reject Optional, Reject All) */
-.buttonSecondary {
+.cookie-consent-buttonSecondary {
   background-color: var(--ifm-background-color, #f5f5f5);
   color: var(--ifm-font-color-base, #1a1a1a);
   border: 1px solid var(--ifm-color-emphasis-300, #ddd);
 }
 
-.buttonSecondary:hover:not(:disabled) {
+.cookie-consent-buttonSecondary:hover:not(:disabled) {
   background-color: var(--ifm-color-emphasis-200, #e8e8e8);
 }
 
 /* Text button (Show/Hide Details) */
-.buttonText {
+.cookie-consent-buttonText {
   background-color: transparent;
   color: var(--ifm-link-color, #0066cc);
   border: none;
   text-decoration: underline;
 }
 
-.buttonText:hover:not(:disabled) {
+.cookie-consent-buttonText:hover:not(:disabled) {
   opacity: 0.8;
 }
 
 /* Toast mode button sizing */
-.buttonsToast .button {
+.cookie-consent-buttonsToast .button {
   flex: 1;
   min-width: 120px;
 }

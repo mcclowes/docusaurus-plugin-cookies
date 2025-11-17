@@ -1,13 +1,25 @@
 import React from 'react'
-import OriginalRoot from '@theme-original/Root'
+import BrowserOnly from '@docusaurus/BrowserOnly'
+import useGlobalData from '@docusaurus/useGlobalData'
 import { CookieConsentProvider } from '../client/Provider'
+import { CookieConsentModal } from '../client/Modal'
+import type { CookieConsentOptions } from '../types'
+import '../client/Modal.css'
 
-export default function Root(props: React.ComponentProps<typeof OriginalRoot>) {
-  // Wrap with Provider so components can use useCookieConsent hook
-  // The modal is injected via client module to avoid SSR issues
+export default function Root({ children }: { children: React.ReactNode }) {
+  const globalData = useGlobalData()
+  const pluginData = globalData?.['docusaurus-plugin-cookie-consent']?.default as {
+    options: CookieConsentOptions
+  } | undefined
+
   return (
     <CookieConsentProvider storageKey="cookie-consent-preferences">
-      <OriginalRoot {...props} />
+      {children}
+      {pluginData?.options && (
+        <BrowserOnly>
+          {() => <CookieConsentModal options={pluginData.options} />}
+        </BrowserOnly>
+      )}
     </CookieConsentProvider>
   )
 }

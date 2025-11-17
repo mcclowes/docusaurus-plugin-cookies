@@ -1,7 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useCookieConsent } from './Provider'
 import type { CookieConsentOptions, CookieCategory } from '../types'
-import styles from './Modal.module.css'
+
+// Define class names as constants
+const styles = {
+  overlay: 'cookie-consent-overlay',
+  toastOverlay: 'cookie-consent-toast-overlay',
+  modal: 'cookie-consent-modal',
+  toast: 'cookie-consent-toast',
+  title: 'cookie-consent-title',
+  description: 'cookie-consent-description',
+  links: 'cookie-consent-links',
+  buttons: 'cookie-consent-buttons',
+  buttonsToast: 'cookie-consent-buttons-toast',
+  button: 'cookie-consent-button',
+  buttonPrimary: 'cookie-consent-button-primary',
+  buttonSecondary: 'cookie-consent-button-secondary',
+  buttonText: 'cookie-consent-button-text',
+  details: 'cookie-consent-details',
+  detailsTitle: 'cookie-consent-details-title',
+  category: 'cookie-consent-category',
+  categoryLabel: 'cookie-consent-category-label',
+  categoryRequired: 'cookie-consent-category-required',
+  categoryDescription: 'cookie-consent-category-description',
+  srOnly: 'cookie-consent-sr-only',
+}
 
 type CookieConsentModalProps = {
   options: CookieConsentOptions
@@ -12,13 +35,13 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
   const [showDetails, setShowDetails] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
 
-  // Don't show modal if loading or consent already given
-  if (loading || preferences?.consentGiven) {
-    return null
-  }
+  // Determine if modal should be shown
+  const shouldShow = !loading && !preferences?.consentGiven
 
   // Keyboard and focus management
   useEffect(() => {
+    // Don't set up event listeners if modal shouldn't be shown
+    if (!shouldShow) return
     if (typeof window === 'undefined') return
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,7 +67,12 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
       document.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = originalOverflow
     }
-  }, [rejectAll])
+  }, [shouldShow, rejectAll])
+
+  // Don't render modal if it shouldn't be shown
+  if (!shouldShow) {
+    return null
+  }
 
   // Render markdown-like links in description
   const renderDescription = (text: string) => {

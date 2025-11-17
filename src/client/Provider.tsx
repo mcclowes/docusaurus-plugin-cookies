@@ -68,6 +68,7 @@ export function CookieConsentProvider({
 
     try {
       const stored = localStorage.getItem(storageKey)
+
       if (stored) {
         const parsed = JSON.parse(stored) as CookiePreferences
         setPreferences(parsed)

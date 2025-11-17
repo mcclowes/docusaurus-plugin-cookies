@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client'
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 import { CookieConsentProvider } from './Provider'
 import { CookieConsentModal } from './Modal'
+import './Modal.css'
 
 if (ExecutionEnvironment.canUseDOM) {
   // Wait for DOM to be ready

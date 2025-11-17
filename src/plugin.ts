@@ -85,10 +85,9 @@ export default function cookieConsentPlugin(
   const themePath = resolveThemePath()
   const typeScriptThemePath = resolveTypeScriptThemePath()
 
-  // Only enable in production by default, but allow override
-  const enabledByDefault = process.env.NODE_ENV === 'production'
+  // Enable by default in all environments, but allow override
   const resolvedOptions: ResolvedCookieConsentOptions = {
-    enabled: options.enabled ?? enabledByDefault,
+    enabled: options.enabled ?? true,
     title: options.title ?? 'Cookie Consent',
     description:
       options.description ??
@@ -104,34 +103,36 @@ export default function cookieConsentPlugin(
 
   return {
     name: 'docusaurus-plugin-cookie-consent',
-    // Don't swizzle Root to avoid SSR issues
-    // Users can manually wrap components that use the hook with BrowserOnly
-    // getThemePath() {
-    //   return themePath
-    // },
-    // getTypeScriptThemePath() {
-    //   return typeScriptThemePath ?? themePath
-    // },
+
+    getThemePath() {
+      return themePath
+    },
+    getTypeScriptThemePath() {
+      return typeScriptThemePath ?? themePath
+    },
 
     // Called during site build/serve. Use to produce data to be consumed later.
     async loadContent() {
       if (!resolvedOptions.enabled) return undefined
-      return {
+      const content = {
         options: resolvedOptions,
       }
+      return content
     },
 
     // Called after loadContent. Use to create routes or inject data into the client.
     async contentLoaded({ content, actions }) {
-      if (!content) return
+      if (!content) {
+        return
+      }
       const { setGlobalData } = actions
       setGlobalData(content)
     },
 
-    // Optionally ship client modules. These run on the client bundle.
-    getClientModules() {
-      if (!resolvedOptions.enabled) return []
-      return [clientModulePath]
-    },
+    // Client modules are not needed since we use theme Root wrapper
+    // getClientModules() {
+    //   if (!resolvedOptions.enabled) return []
+    //   return [clientModulePath]
+    // },
   }
 }
