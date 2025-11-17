@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     'client/index': 'src/client/index.ts',
+    'client/clientModule': 'src/client/clientModule.tsx',
     'theme/Root': 'src/theme/Root.tsx',
   },
   dts: true,

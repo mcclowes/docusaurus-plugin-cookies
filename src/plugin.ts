@@ -129,10 +129,9 @@ export default function cookieConsentPlugin(
       setGlobalData(content)
     },
 
-    // Client modules are not needed since we use theme Root wrapper
-    // getClientModules() {
-    //   if (!resolvedOptions.enabled) return []
-    //   return [clientModulePath]
-    // },
+    getClientModules() {
+      if (!resolvedOptions.enabled) return []
+      return [clientModulePath]
+    },
   }
 }
