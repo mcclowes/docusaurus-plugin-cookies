@@ -88,14 +88,14 @@ export default function cookieConsentPlugin(
   // Enable by default in all environments, but allow override
   const resolvedOptions: ResolvedCookieConsentOptions = {
     enabled: options.enabled ?? true,
-    title: options.title ?? 'Cookie Consent',
+    title: options.title ?? 'Cookie consent',
     description:
       options.description ??
-      'We use cookies to enhance your browsing experience and analyze our traffic.',
+      'We use cookies to enhance your browsing experience.',
     links: options.links ?? [],
-    acceptAllText: options.acceptAllText ?? 'Accept All',
-    rejectOptionalText: options.rejectOptionalText ?? 'Reject Optional',
-    rejectAllText: options.rejectAllText ?? 'Reject All',
+    acceptAllText: options.acceptAllText ?? 'Accept all',
+    rejectOptionalText: options.rejectOptionalText ?? 'Reject optional',
+    rejectAllText: options.rejectAllText ?? 'Reject all',
     storageKey: options.storageKey ?? 'cookie-consent-preferences',
     toastMode: options.toastMode ?? false,
     categories: options.categories,
