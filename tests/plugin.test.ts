@@ -25,7 +25,7 @@ describe('cookieConsentPlugin', () => {
 
     expect(content?.options).toMatchObject({
       enabled: true,
-      title: 'Cookie Consent',
+      title: 'Cookie consent',
       storageKey: 'cookie-consent-preferences',
     })
 
