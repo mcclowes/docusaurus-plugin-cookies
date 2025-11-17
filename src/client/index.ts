@@ -6,6 +6,3 @@ export * from './hooks'
 export { CookieConsentProvider, useCookieConsent } from './Provider'
 export type { CookiePreferences } from './Provider'
 export { CookieConsentModal } from './Modal'
-
-// Legacy exports for backward compatibility
-export { CookieConsentProvider as CookieProvider } from './Provider'
