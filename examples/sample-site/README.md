@@ -22,4 +22,3 @@ The dev server starts on `http://localhost:3000` with the plugin enabled.
 - Swap the demo policy text in `docs/privacy-policy.md` for production content.
 - Adjust the `storageKey` and button labels in the plugin options to match your brand.
 - Extend the example components to trigger analytics or marketing scripts when the relevant consent toggles are enabled.
-

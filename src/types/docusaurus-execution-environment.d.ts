@@ -12,4 +12,3 @@ declare module '@theme-original/Root' {
   const Root: ComponentType<PropsWithChildren>
   export default Root
 }
-

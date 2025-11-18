@@ -27,8 +27,8 @@ export default function Home(): JSX.Element {
           </p>
           <p>
             Start the dev server with <code>npm install</code> followed by <code>npm start</code>{' '}
-            inside this folder. The site will open on{' '}
-            <code>http://localhost:3000</code> with the plugin already wired up.
+            inside this folder. The site will open on <code>http://localhost:3000</code> with the
+            plugin already wired up.
           </p>
         </section>
 
@@ -42,4 +42,3 @@ export default function Home(): JSX.Element {
     </Layout>
   )
 }
-

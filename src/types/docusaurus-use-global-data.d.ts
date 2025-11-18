@@ -8,5 +8,3 @@ declare module '@docusaurus/useGlobalData' {
 
   export default function useGlobalData(): GlobalData
 }
-
-

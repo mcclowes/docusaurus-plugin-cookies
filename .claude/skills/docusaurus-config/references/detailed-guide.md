@@ -5,51 +5,57 @@
 Docusaurus configuration can be in multiple formats:
 
 ### TypeScript (Recommended)
+
 ```typescript
-import {Config} from '@docusaurus/types';
-import {themes as prismThemes} from 'prism-react-renderer';
+import { Config } from '@docusaurus/types'
+import { themes as prismThemes } from 'prism-react-renderer'
 
 const config: Config = {
   // Configuration here
-};
+}
 
-export default config;
+export default config
 ```
 
 ### JavaScript (ESM)
+
 ```javascript
 export default {
   // Configuration here
-};
+}
 ```
 
 ### JavaScript (CommonJS)
+
 ```javascript
 module.exports = {
   // Configuration here
-};
+}
 ```
 
 ### Async Configuration
+
 ```typescript
 export default async function createConfig(): Promise<Config> {
   // Import ESM-only packages
-  const mdxMermaid = await import('mdx-mermaid');
+  const mdxMermaid = await import('mdx-mermaid')
 
   return {
     // Configuration here
-  };
+  }
 }
 ```
 
 ## Required Fields
 
 ### title
+
 - Type: `string`
 - Required: Yes
 - Description: Site title for metadata and browser tabs
 
 ### url
+
 - Type: `string`
 - Required: Yes
 - Format: Must not end with trailing slash
@@ -57,6 +63,7 @@ export default async function createConfig(): Promise<Config> {
 - Description: Full URL where site will be hosted
 
 ### baseUrl
+
 - Type: `string`
 - Required: Yes
 - Format: Must start and end with `/`
@@ -66,16 +73,19 @@ export default async function createConfig(): Promise<Config> {
 ## Common Optional Fields
 
 ### Site Metadata
+
 - `tagline`: Short description of your site
 - `favicon`: Path to favicon (relative to static folder)
 - `organizationName`: GitHub org/user name (for deployment)
 - `projectName`: GitHub repo name (for deployment)
 
 ### Deployment
+
 - `deploymentBranch`: Branch for deployment (default: 'gh-pages')
 - `trailingSlash`: Boolean or undefined for trailing slash handling
 
 ### Internationalization
+
 ```typescript
 i18n: {
   defaultLocale: 'en',
@@ -86,6 +96,7 @@ i18n: {
 ## Themes Configuration
 
 ### Using Presets (Recommended)
+
 ```typescript
 presets: [
   [
@@ -107,6 +118,7 @@ presets: [
 ```
 
 ### Direct Theme Configuration
+
 ```typescript
 themes: ['@docusaurus/theme-classic'],
 themeConfig: {
@@ -133,11 +145,13 @@ themeConfig: {
 ### Adding Plugins
 
 String format (no options):
+
 ```typescript
 plugins: ['@docusaurus/plugin-debug'],
 ```
 
 Array format (with options):
+
 ```typescript
 plugins: [
   [
@@ -154,6 +168,7 @@ plugins: [
 ### Shorthand Notation
 
 Official Docusaurus packages can use shorthand:
+
 - `'classic'` → `'@docusaurus/preset-classic'`
 - `'plugin-debug'` → `'@docusaurus/plugin-debug'`
 
@@ -172,6 +187,7 @@ customFields: {
 ```
 
 Access in components:
+
 ```typescript
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -214,6 +230,7 @@ When modifying config, verify:
 ## Common Patterns
 
 ### Multi-Instance Docs
+
 ```typescript
 plugins: [
   [
@@ -236,24 +253,27 @@ plugins: [
 ```
 
 ### Environment Variables
+
 ```typescript
 const config: Config = {
   url: process.env.SITE_URL || 'https://localhost:3000',
   customFields: {
     apiEndpoint: process.env.API_ENDPOINT,
   },
-};
+}
 ```
 
 ### Babel Customization
+
 Create `babel.config.js`:
+
 ```javascript
 module.exports = {
   presets: [require.resolve('@docusaurus/babel/preset')],
   plugins: [
     // Your custom Babel plugins
   ],
-};
+}
 ```
 
 ## Troubleshooting
@@ -261,15 +281,19 @@ module.exports = {
 ### Common Errors
 
 **"url must not have a trailing slash"**
+
 - Fix: Change `url: 'https://example.com/'` to `url: 'https://example.com'`
 
 **"baseUrl must start and end with /"**
+
 - Fix: Change `baseUrl: 'docs'` to `baseUrl: '/docs/'`
 
 **"Unknown field 'myField'"**
+
 - Fix: Move to `customFields: { myField: 'value' }`
 
 **"Cannot find module '@docusaurus/types'"**
+
 - Fix: Run `npm install --save-dev @docusaurus/types`
 
 ### Best Practices

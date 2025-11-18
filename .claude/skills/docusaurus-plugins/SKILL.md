@@ -13,17 +13,17 @@ description: Use when creating Docusaurus plugins (remark, rehype, theme, conten
 // Remark plugin - transforms markdown AST
 module.exports = function remarkPlugin(options = {}) {
   return async function transformer(ast, vfile) {
-    const { visit } = require('unist-util-visit');
+    const { visit } = require('unist-util-visit')
 
     visit(ast, 'link', (node) => {
       // Transform nodes
-      node.data = node.data || {};
-      node.data.hProperties = { className: 'custom' };
-    });
+      node.data = node.data || {}
+      node.data.hProperties = { className: 'custom' }
+    })
 
-    return ast;
-  };
-};
+    return ast
+  }
+}
 
 // In docusaurus.config.js:
 // remarkPlugins: [require('./plugins/my-plugin')]
@@ -40,6 +40,7 @@ module.exports = function remarkPlugin(options = {}) {
 ## Reference Files
 
 Detailed guides for each plugin type:
+
 - [references/remark-plugins.md](references/remark-plugins.md) - Markdown transformation
 - [references/rehype-plugins.md](references/rehype-plugins.md) - HTML processing
 - [references/lifecycle-plugins.md](references/lifecycle-plugins.md) - Routes, webpack, global data

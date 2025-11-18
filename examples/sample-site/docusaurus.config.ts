@@ -27,7 +27,8 @@ const config: Config = {
         docs: {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/mcclowes/docusaurus-plugin-cookie-consent/tree/main/examples/sample-site',
+          editUrl:
+            'https://github.com/mcclowes/docusaurus-plugin-cookie-consent/tree/main/examples/sample-site',
         },
         blog: false,
         theme: {
@@ -140,4 +141,3 @@ const config: Config = {
 }
 
 export default config
-

@@ -56,4 +56,3 @@ describe('cookieConsentPlugin', () => {
     expect(setGlobalData).toHaveBeenCalledWith(content)
   })
 })
-

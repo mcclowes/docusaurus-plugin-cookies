@@ -67,9 +67,7 @@ const resolveTypeScriptThemePath = () => {
   return undefined
 }
 
-type ResolvedCookieConsentOptions = Required<
-  Omit<CookieConsentOptions, 'categories'>
-> & {
+type ResolvedCookieConsentOptions = Required<Omit<CookieConsentOptions, 'categories'>> & {
   categories?: CookieConsentOptions['categories']
 }
 
@@ -89,9 +87,7 @@ export default function cookieConsentPlugin(
   const resolvedOptions: ResolvedCookieConsentOptions = {
     enabled: options.enabled ?? true,
     title: options.title ?? 'Cookie consent',
-    description:
-      options.description ??
-      'We use cookies to enhance your browsing experience.',
+    description: options.description ?? 'We use cookies to enhance your browsing experience.',
     links: options.links ?? [],
     acceptAllText: options.acceptAllText ?? 'Accept all',
     rejectOptionalText: options.rejectOptionalText ?? 'Reject optional',

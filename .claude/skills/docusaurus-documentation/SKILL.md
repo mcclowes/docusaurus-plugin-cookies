@@ -14,8 +14,8 @@ When the user asks about Docusaurus features, configuration, or best practices, 
 ```typescript
 // Use WebFetch to access Docusaurus documentation
 WebFetch({
-  url: "https://docusaurus.io/docs/[topic]",
-  prompt: "What does this page say about [specific question]?"
+  url: 'https://docusaurus.io/docs/[topic]',
+  prompt: 'What does this page say about [specific question]?',
 })
 ```
 
@@ -30,6 +30,7 @@ WebFetch({
 ### Looking Up Configuration Options
 
 When users ask about docusaurus.config.js settings, theming, or plugins:
+
 1. Use WebFetch with https://docusaurus.io/docs/api/docusaurus-config
 2. For specific plugins, check https://docusaurus.io/docs/api/plugins/[plugin-name]
 3. For theming, use https://docusaurus.io/docs/styling-layout
@@ -37,6 +38,7 @@ When users ask about docusaurus.config.js settings, theming, or plugins:
 ### Finding Feature Documentation
 
 For markdown features, MDX, or content creation:
+
 - Markdown features: https://docusaurus.io/docs/markdown-features
 - MDX and React: https://docusaurus.io/docs/markdown-features/react
 - Docs organization: https://docusaurus.io/docs/create-doc
@@ -44,6 +46,7 @@ For markdown features, MDX, or content creation:
 ## Reference Files
 
 For detailed documentation, see:
+
 - [references/](references/) - Cached documentation and guides
 
 ## Notes

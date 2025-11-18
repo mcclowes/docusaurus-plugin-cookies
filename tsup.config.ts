@@ -12,7 +12,14 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: 'es2020',
-  external: ['@docusaurus/ExecutionEnvironment', '@docusaurus/BrowserOnly', '@docusaurus/useGlobalData', '@theme-original/Root', 'react', 'react-dom'],
+  external: [
+    '@docusaurus/ExecutionEnvironment',
+    '@docusaurus/BrowserOnly',
+    '@docusaurus/useGlobalData',
+    '@theme-original/Root',
+    'react',
+    'react-dom',
+  ],
   loader: {
     '.css': 'copy',
   },

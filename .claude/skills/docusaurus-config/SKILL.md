@@ -12,23 +12,34 @@ description: Use when working with docusaurus.config.js/ts files to validate or 
 Configuration lives in `docusaurus.config.js` or `docusaurus.config.ts` at project root.
 
 ```typescript
-import {Config} from '@docusaurus/types';
+import { Config } from '@docusaurus/types'
 
 const config: Config = {
-  title: 'My Site',           // Required
+  title: 'My Site', // Required
   url: 'https://example.com', // Required, no trailing /
-  baseUrl: '/',               // Required, must start and end with /
+  baseUrl: '/', // Required, must start and end with /
 
   favicon: 'img/favicon.ico',
   organizationName: 'my-org',
   projectName: 'my-project',
 
-  presets: [['@docusaurus/preset-classic', { /* options */ }]],
-  themeConfig: { /* theme config */ },
-  customFields: { /* unknown fields go here */ }
-};
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        /* options */
+      },
+    ],
+  ],
+  themeConfig: {
+    /* theme config */
+  },
+  customFields: {
+    /* unknown fields go here */
+  },
+}
 
-export default config;
+export default config
 ```
 
 ## Core Principles

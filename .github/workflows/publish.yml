@@ -2,7 +2,7 @@ name: Publish to npm
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   release:
     types: [published]
   workflow_dispatch:
@@ -50,4 +50,3 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
-

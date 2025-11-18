@@ -21,7 +21,9 @@
   background-color: var(--ifm-background-color);
   border-radius: 8px;
   border: 1px solid #eee;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 2rem;
   overflow-y: auto;
   z-index: 10000;
@@ -136,14 +138,17 @@
 
 /* Button base styles */
 .cookie-consent-button {
-  padding: 12px 24px;
+  padding: var(--ifm-button-padding-vertical, 0.6rem) var(--ifm-button-padding-horizontal, 1.4rem);
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: var(--ifm-button-border-radius, 0.5rem);
+  font-size: var(--ifm-font-size-base, 14px);
+  font-weight: var(--ifm-font-weight-semibold, 500);
   cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: inherit;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.2s;
+  font-family: var(--ifm-font-family-base, inherit);
 }
 
 .cookie-consent-button:disabled {
@@ -153,35 +158,49 @@
 
 /* Primary button (Accept) */
 .cookie-consent-buttonPrimary {
-  background-color: var(--ifm-color-primary, #0066cc);
-  color: #ffffff;
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse, #ffffff);
   border: none;
 }
 
 .cookie-consent-buttonPrimary:hover:not(:disabled) {
-  background-color: var(--ifm-color-primary-dark, #0052a3);
+  background-color: var(--ifm-color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.cookie-consent-buttonPrimary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* Secondary button (Reject Optional, Reject All) */
 .cookie-consent-buttonSecondary {
-  background-color: var(--ifm-background-color, #f5f5f5);
-  color: var(--ifm-font-color-base, #1a1a1a);
-  border: 1px solid var(--ifm-color-emphasis-300, #ddd);
+  background-color: var(--ifm-color-secondary, var(--ifm-color-emphasis-200));
+  color: var(--ifm-font-color-base-inverse, var(--ifm-font-color-base));
+  border: none;
 }
 
 .cookie-consent-buttonSecondary:hover:not(:disabled) {
-  background-color: var(--ifm-color-emphasis-200, #e8e8e8);
+  background-color: var(--ifm-color-secondary-dark, var(--ifm-color-emphasis-300));
+  transform: translateY(-1px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.cookie-consent-buttonSecondary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* Text button (Show/Hide Details) */
 .cookie-consent-buttonText {
   background-color: transparent;
-  color: var(--ifm-link-color, #0066cc);
+  color: var(--ifm-link-color);
   border: none;
   text-decoration: underline;
+  font-weight: var(--ifm-font-weight-base, 400);
 }
 
 .cookie-consent-buttonText:hover:not(:disabled) {
+  color: var(--ifm-link-hover-color);
   opacity: 0.8;
 }
 

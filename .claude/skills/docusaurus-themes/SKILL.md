@@ -25,6 +25,7 @@ npm run swizzle @docusaurus/theme-classic ComponentName -- --wrap
 ## Common Patterns
 
 **List available components:**
+
 ```bash
 npm run swizzle @docusaurus/theme-classic -- --list
 ```
@@ -34,6 +35,7 @@ npm run swizzle @docusaurus/theme-classic -- --list
 ## Reference Files
 
 For detailed documentation, see:
+
 - [references/commands.md](references/commands.md) - All swizzle commands and options
 - [references/components.md](references/components.md) - Component-specific guides
 

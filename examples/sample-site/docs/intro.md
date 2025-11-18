@@ -15,4 +15,3 @@ The example site is intentionally small so you can focus on the cookie consent e
 - Query consent state from React components using the provided hook
 
 Continue with the rest of the docs for step-by-step guidance and reference material.
-

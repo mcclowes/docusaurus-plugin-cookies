@@ -16,4 +16,3 @@ For privacy-related questions, email `privacy@example.com`.
 ## Managing cookies
 
 Use the cookie consent controls at the bottom of every page to update your preferences. You can accept all cookies, keep only the necessary ones, or fine-tune each category to suit your comfort level.
-

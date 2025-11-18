@@ -51,7 +51,9 @@
   border: none;
   font-weight: var(--ifm-font-weight-semibold);
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
 }
 
 .buttonPrimary {
@@ -79,4 +81,3 @@
   background: var(--ifm-color-primary);
   color: var(--ifm-font-color-base-inverse);
 }
-

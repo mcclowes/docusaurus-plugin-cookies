@@ -4,7 +4,10 @@ import path from 'path'
 export default defineConfig({
   resolve: {
     alias: {
-      '@docusaurus/ExecutionEnvironment': path.resolve(__dirname, './tests/mocks/ExecutionEnvironment.ts'),
+      '@docusaurus/ExecutionEnvironment': path.resolve(
+        __dirname,
+        './tests/mocks/ExecutionEnvironment.ts'
+      ),
     },
   },
   test: {

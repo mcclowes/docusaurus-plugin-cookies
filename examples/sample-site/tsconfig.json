@@ -17,4 +17,3 @@
   },
   "include": ["docusaurus.config.ts", "src/**/*", "docs/**/*"]
 }
-

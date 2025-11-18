@@ -55,6 +55,7 @@ Links that open in new tabs include appropriate warnings for screen reader users
 - **Applies to**: Both markdown-style links in descriptions and configured link arrays
 
 **Location**:
+
 - Markdown links: `src/client/CookieConsentModal.tsx:134-145`
 - Link array: `src/client/CookieConsentModal.tsx:230-247`
 

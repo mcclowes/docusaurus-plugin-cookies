@@ -53,7 +53,7 @@ type CookieConsentProviderProps = {
 
 export function CookieConsentProvider({
   children,
-  storageKey = 'cookie-consent-preferences'
+  storageKey = 'cookie-consent-preferences',
 }: CookieConsentProviderProps) {
   const [preferences, setPreferences] = useState<CookiePreferences | null>(null)
   const [loading, setLoading] = useState(true)
@@ -84,19 +84,22 @@ export function CookieConsentProvider({
   }, [storageKey])
 
   // Update consent helper
-  const updateConsent = useCallback((value: CookiePreferences) => {
-    setPreferences(value)
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(value))
-      } catch (error) {
-        console.warn(
-          '[docusaurus-plugin-cookie-consent] Failed to save preferences to localStorage:',
-          error
-        )
+  const updateConsent = useCallback(
+    (value: CookiePreferences) => {
+      setPreferences(value)
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(value))
+        } catch (error) {
+          console.warn(
+            '[docusaurus-plugin-cookie-consent] Failed to save preferences to localStorage:',
+            error
+          )
+        }
       }
-    }
-  }, [storageKey])
+    },
+    [storageKey]
+  )
 
   const hasConsent = useCallback(() => {
     return preferences?.consentGiven ?? false
@@ -146,31 +149,31 @@ export function CookieConsentProvider({
     })
   }, [updateConsent])
 
-  const updatePreferences = useCallback((prefs: Partial<CookiePreferences>) => {
-    setPreferences((prev) => {
-      const next: CookiePreferences = {
-        necessary: true, // Always true
-        analytics: prefs.analytics ?? prev?.analytics ?? false,
-        marketing: prefs.marketing ?? prev?.marketing ?? false,
-        functional: prefs.functional ?? prev?.functional ?? false,
-        consentGiven: prefs.consentGiven ?? prev?.consentGiven ?? true,
-        timestamp: Date.now(),
-      }
-
-      if (typeof window !== 'undefined') {
-        try {
-          localStorage.setItem(storageKey, JSON.stringify(next))
-        } catch (error) {
-          console.warn(
-            '[docusaurus-plugin-cookie-consent] Failed to save preferences:',
-            error
-          )
+  const updatePreferences = useCallback(
+    (prefs: Partial<CookiePreferences>) => {
+      setPreferences((prev) => {
+        const next: CookiePreferences = {
+          necessary: true, // Always true
+          analytics: prefs.analytics ?? prev?.analytics ?? false,
+          marketing: prefs.marketing ?? prev?.marketing ?? false,
+          functional: prefs.functional ?? prev?.functional ?? false,
+          consentGiven: prefs.consentGiven ?? prev?.consentGiven ?? true,
+          timestamp: Date.now(),
         }
-      }
 
-      return next
-    })
-  }, [storageKey])
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(next))
+          } catch (error) {
+            console.warn('[docusaurus-plugin-cookie-consent] Failed to save preferences:', error)
+          }
+        }
+
+        return next
+      })
+    },
+    [storageKey]
+  )
 
   const resetConsent = useCallback(() => {
     setPreferences(null)
@@ -178,10 +181,7 @@ export function CookieConsentProvider({
       try {
         localStorage.removeItem(storageKey)
       } catch (error) {
-        console.warn(
-          '[docusaurus-plugin-cookie-consent] Failed to reset consent:',
-          error
-        )
+        console.warn('[docusaurus-plugin-cookie-consent] Failed to reset consent:', error)
       }
     }
   }, [storageKey])
@@ -198,11 +198,7 @@ export function CookieConsentProvider({
     resetConsent,
   }
 
-  return (
-    <CookieConsentContext.Provider value={value}>
-      {children}
-    </CookieConsentContext.Provider>
-  )
+  return <CookieConsentContext.Provider value={value}>{children}</CookieConsentContext.Provider>
 }
 
 export default CookieConsentProvider

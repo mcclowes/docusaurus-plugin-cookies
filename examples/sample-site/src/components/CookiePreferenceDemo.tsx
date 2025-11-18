@@ -55,4 +55,3 @@ const CookiePreferenceDemo: React.FC = () => {
 }
 
 export default CookiePreferenceDemo
-

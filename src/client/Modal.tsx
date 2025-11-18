@@ -135,9 +135,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
     ? `${styles.overlay} ${styles.toastOverlay}`
     : styles.overlay
 
-  const modalClass = options.toastMode
-    ? `${styles.modal} ${styles.toast}`
-    : styles.modal
+  const modalClass = options.toastMode ? `${styles.modal} ${styles.toast}` : styles.modal
 
   const buttonsClass = options.toastMode
     ? `${styles.buttons} ${styles.buttonsToast}`
@@ -211,9 +209,7 @@ export function CookieConsentModal({ options }: CookieConsentModalProps) {
                     )}
                   </div>
                   {categoryConfig.description && (
-                    <div className={styles.categoryDescription}>
-                      {categoryConfig.description}
-                    </div>
+                    <div className={styles.categoryDescription}>{categoryConfig.description}</div>
                   )}
                 </div>
               )

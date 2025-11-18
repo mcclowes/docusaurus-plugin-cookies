@@ -64,13 +64,7 @@ docusaurus-plugin-name/
   "main": "index.js",
   "types": "index.d.ts",
 
-  "keywords": [
-    "docusaurus",
-    "remark",
-    "plugin",
-    "glossary",
-    "documentation"
-  ],
+  "keywords": ["docusaurus", "remark", "plugin", "glossary", "documentation"],
 
   "author": "Your Name <email@example.com>",
   "license": "MIT",
@@ -86,12 +80,7 @@ docusaurus-plugin-name/
 
   "homepage": "https://github.com/username/docusaurus-plugin-glossary#readme",
 
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "lib/",
-    "src/"
-  ],
+  "files": ["index.js", "index.d.ts", "lib/", "src/"],
 
   "dependencies": {
     "unist-util-visit": "^4.0.0"
@@ -132,13 +121,7 @@ docusaurus-plugin-name/
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
 
-  "keywords": [
-    "docusaurus",
-    "plugin",
-    "content",
-    "changelog",
-    "release-notes"
-  ],
+  "keywords": ["docusaurus", "plugin", "content", "changelog", "release-notes"],
 
   "author": "Organization Name",
   "license": "MIT",
@@ -153,12 +136,7 @@ docusaurus-plugin-name/
     "access": "public"
   },
 
-  "files": [
-    "lib/",
-    "theme/",
-    "index.js",
-    "index.d.ts"
-  ],
+  "files": ["lib/", "theme/", "index.js", "index.d.ts"],
 
   "dependencies": {
     "fs-extra": "^11.0.0",
@@ -252,8 +230,8 @@ docusaurus-plugin-name/
 
 ```typescript
 // index.d.ts
-import { Plugin } from 'unified';
-import { Root } from 'mdast';
+import { Plugin } from 'unified'
+import { Root } from 'mdast'
 
 /**
  * Options for the glossary plugin
@@ -263,52 +241,52 @@ export interface RemarkGlossaryOptions {
    * Directory containing term definitions
    * @default './docs/terms'
    */
-  termsDir?: string;
+  termsDir?: string
 
   /**
    * Root documentation directory
    * @default './docs'
    */
-  docsDir?: string;
+  docsDir?: string
 
   /**
    * Output path for generated glossary
    * @default './docs/glossary.md'
    */
-  glossaryFilepath?: string;
+  glossaryFilepath?: string
 
   /**
    * Custom component path for tooltips
    */
-  componentPath?: string;
+  componentPath?: string
 }
 
 /**
  * Remark plugin for adding glossary tooltips to documentation
  */
-declare const remarkGlossary: Plugin<[RemarkGlossaryOptions?], Root>;
+declare const remarkGlossary: Plugin<[RemarkGlossaryOptions?], Root>
 
-export default remarkGlossary;
+export default remarkGlossary
 ```
 
 ### Lifecycle Plugin Types
 
 ```typescript
 // index.d.ts
-import { Plugin, LoadContext, OptionValidationContext } from '@docusaurus/types';
+import { Plugin, LoadContext, OptionValidationContext } from '@docusaurus/types'
 
 /**
  * Changelog entry data structure
  */
 export interface ChangelogEntry {
-  id: string;
-  slug: string;
-  title: string;
-  version: string;
-  date: string;
-  type: 'feature' | 'fix' | 'breaking' | 'improvement';
-  body: string;
-  filePath: string;
+  id: string
+  slug: string
+  title: string
+  version: string
+  date: string
+  type: 'feature' | 'fix' | 'breaking' | 'improvement'
+  body: string
+  filePath: string
 }
 
 /**
@@ -319,48 +297,45 @@ export interface PluginOptions {
    * Path to changelog directory
    * @default 'changelog'
    */
-  changelogPath?: string;
+  changelogPath?: string
 
   /**
    * Base URL path for changelog routes
    * @default 'changelog'
    */
-  routeBasePath?: string;
+  routeBasePath?: string
 
   /**
    * Glob patterns for files to include
    * @default ['**\/*.md']
    */
-  include?: string[];
+  include?: string[]
 
   /**
    * Generate RSS feed
    * @default true
    */
-  generateRss?: boolean;
+  generateRss?: boolean
 }
 
 /**
  * Plugin content loaded in browser
  */
 export interface PluginContent {
-  entries: ChangelogEntry[];
-  latestVersion: string;
+  entries: ChangelogEntry[]
+  latestVersion: string
 }
 
-declare const plugin: (
-  context: LoadContext,
-  options: PluginOptions
-) => Plugin<ChangelogEntry[]>;
+declare const plugin: (context: LoadContext, options: PluginOptions) => Plugin<ChangelogEntry[]>
 
-export default plugin;
+export default plugin
 
 /**
  * Validate plugin options
  */
 export function validateOptions(
   context: OptionValidationContext<PluginOptions, PluginOptions>
-): PluginOptions;
+): PluginOptions
 ```
 
 ## Jest Configuration
@@ -371,11 +346,7 @@ export function validateOptions(
 module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.js', '**/*.test.js'],
-  collectCoverageFrom: [
-    'src/**/*.js',
-    '!src/**/*.test.js',
-    '!**/node_modules/**',
-  ],
+  collectCoverageFrom: ['src/**/*.js', '!src/**/*.test.js', '!**/node_modules/**'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -387,7 +358,7 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
   },
-};
+}
 ```
 
 ## ESLint Configuration
@@ -401,11 +372,7 @@ module.exports = {
     node: true,
     es2020: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
@@ -416,7 +383,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-console': 'warn',
   },
-};
+}
 ```
 
 ## Prettier Configuration
@@ -572,7 +539,7 @@ jobs:
 
 ## README.md Template
 
-```markdown
+````markdown
 # docusaurus-plugin-name
 
 > Brief description of what the plugin does
@@ -584,6 +551,7 @@ npm install docusaurus-plugin-name
 # or
 yarn add docusaurus-plugin-name
 ```
+````
 
 ## Usage
 
@@ -601,15 +569,15 @@ module.exports = {
       },
     ],
   ],
-};
+}
 ```
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `option1` | `string` | `'default'` | Description |
-| `option2` | `boolean` | `false` | Description |
+| Option    | Type      | Default     | Description |
+| --------- | --------- | ----------- | ----------- |
+| `option1` | `string`  | `'default'` | Description |
+| `option2` | `boolean` | `false`     | Description |
 
 ## Examples
 
@@ -640,7 +608,8 @@ Description...
 ## License
 
 MIT
-```
+
+````
 
 ## Versioning and Publishing
 
@@ -668,7 +637,7 @@ npm publish
 
 # For scoped packages
 npm publish --access public
-```
+````
 
 ## Best Practices
 
